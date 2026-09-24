@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { Property } from "@/lib/types";
-import { PropertyCard } from "@/components/property/PropertyCard";
+import { PropertyCarousel } from "@/components/property/PropertyCarousel";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 
@@ -30,13 +30,9 @@ export function FeaturedProperties({ properties }: FeaturedPropertiesProps) {
           </div>
         </Reveal>
 
-        <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-7">
-          {properties.map((property, index) => (
-            <Reveal key={property.id} delay={index * 90}>
-              <PropertyCard property={property} priority={index === 0} />
-            </Reveal>
-          ))}
-        </div>
+        <Reveal>
+          <PropertyCarousel properties={properties} />
+        </Reveal>
 
         {/* Category entry points into the full catalogue */}
         <Reveal>
