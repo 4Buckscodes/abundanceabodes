@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" role="img" aria-label="Green land horizon illustration">
+  <defs>
+    <linearGradient id="gsky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f7f3eb"/>
+      <stop offset=".7" stop-color="#efe4c9"/>
+    </linearGradient>
+    <linearGradient id="gfield" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2a5542"/>
+      <stop offset="1" stop-color="#0f2419"/>
+    </linearGradient>
+    <linearGradient id="gfield2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#3d6b52"/>
+      <stop offset="1" stop-color="#1a3c2e"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="900" fill="url(#gsky)"/>
+  <circle cx="600" cy="430" r="130" fill="#d4b56a" opacity=".6"/>
+  <circle cx="600" cy="430" r="180" fill="#d4b56a" opacity=".22"/>
+  <path d="M0 560 Q300 500 600 552 T1200 540 V900 H0 Z" fill="url(#gfield2)"/>
+  <path d="M0 650 Q340 592 700 646 T1200 636 V900 H0 Z" fill="url(#gfield)"/>
+  <!-- field rows -->
+  <g stroke="#d4b56a" stroke-width="6" opacity=".35" fill="none">
+    <path d="M60 720 Q400 668 1140 708"/>
+    <path d="M100 780 Q420 730 1100 762"/>
+    <path d="M40 850 Q430 800 1160 826"/>
+  </g>
+  <!-- distant trees -->
+  <g fill="#123527">
+    <ellipse cx="150" cy="548" rx="46" ry="34"/>
+    <ellipse cx="1010" cy="536" rx="52" ry="38"/>
+    <ellipse cx="880" cy="552" rx="38" ry="28"/>
+  </g>
+  <!-- fence posts -->
+  <g stroke="#c4b5a0" stroke-width="10">
+    <line x1="120" y1="640" x2="120" y2="690"/>
+    <line x1="360" y1="618" x2="360" y2="668"/>
+    <line x1="600" y1="612" x2="600" y2="662"/>
+    <line x1="840" y1="618" x2="840" y2="668"/>
+    <line x1="1080" y1="636" x2="1080" y2="686"/>
+  </g>
+  <line x1="120" y1="652" x2="1080" y2="640" stroke="#c4b5a0" stroke-width="6" opacity=".7"/>
+</svg>

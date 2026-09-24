@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" role="img" aria-label="Living room illustration">
+  <defs>
+    <linearGradient id="wall" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f4eee2"/>
+      <stop offset="1" stop-color="#e3d7c2"/>
+    </linearGradient>
+    <linearGradient id="floor" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#b8954a"/>
+      <stop offset="1" stop-color="#8f7338"/>
+    </linearGradient>
+    <linearGradient id="windowglow" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fdf9f0"/>
+      <stop offset="1" stop-color="#e8d9ae"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="620" fill="url(#wall)"/>
+  <rect y="620" width="1200" height="280" fill="url(#floor)"/>
+  <!-- window wall -->
+  <g>
+    <rect x="120" y="120" width="420" height="380" fill="url(#windowglow)" stroke="#1a3c2e" stroke-width="10"/>
+    <line x1="330" y1="126" x2="330" y2="496" stroke="#1a3c2e" stroke-width="8"/>
+    <rect x="600" y="120" width="420" height="380" fill="url(#windowglow)" stroke="#1a3c2e" stroke-width="10"/>
+    <line x1="810" y1="126" x2="810" y2="496" stroke="#1a3c2e" stroke-width="8"/>
+    <ellipse cx="240" cy="430" rx="60" ry="26" fill="#2a5542"/>
+    <path d="M180 452 Q240 400 300 452" fill="#1a3c2e"/>
+    <circle cx="900" cy="220" r="46" fill="#d4b56a"/>
+  </g>
+  <!-- rug -->
+  <ellipse cx="600" cy="700" rx="360" ry="110" fill="#c4b5a0" opacity=".55"/>
+  <ellipse cx="600" cy="700" rx="300" ry="86" fill="none" stroke="#b8954a" stroke-width="6" opacity=".6"/>
+  <!-- sofa -->
+  <rect x="330" y="540" width="540" height="90" rx="18" fill="#1a3c2e"/>
+  <rect x="310" y="500" width="80" height="130" rx="16" fill="#2a5542"/>
+  <rect x="810" y="500" width="80" height="130" rx="16" fill="#2a5542"/>
+  <rect x="380" y="508" width="440" height="52" rx="14" fill="#2a5542"/>
+  <rect x="420" y="472" width="70" height="48" rx="10" fill="#d4b56a"/>
+  <rect x="700" y="472" width="70" height="48" rx="10" fill="#d4b56a"/>
+  <!-- coffee table -->
+  <rect x="520" y="650" width="160" height="22" rx="8" fill="#0f2419"/>
+  <rect x="540" y="672" width="16" height="42" fill="#0f2419"/>
+  <rect x="644" y="672" width="16" height="42" fill="#0f2419"/>
+  <!-- pendant -->
+  <line x1="600" y1="0" x2="600" y2="150" stroke="#1a3c2e" stroke-width="6"/>
+  <path d="M540 210 A62 62 0 0 1 660 210 L600 152 Z" fill="#b8954a"/>
+</svg>

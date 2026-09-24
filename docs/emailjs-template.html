@@ -1,0 +1,107 @@
+<!-- ============================================================
+  EmailJS template for Abundance Abodes consultation form.
+  Paste into EmailJS Dashboard → Email Templates → Content (Source tab).
+
+  Variables sent by the form (use exactly as written):
+    {{from_name}}       visitor's full name
+    {{reply_to}}        visitor's email (same as {{email}})
+    {{email}}
+    {{phone}}
+    {{property_title}}  e.g. "The Crest — 4 Bedroom Duplex" / "General consultation"
+    {{property_slug}}   URL slug, or "-" for general enquiries
+    {{preferred_time}}  free text, or "Flexible"
+    {{message}}
+============================================================= -->
+
+<div style="margin:0;padding:0;background-color:#f4efe6;font-family:Georgia,'Times New Roman',serif;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#f4efe6;padding:24px 12px;">
+    <tr>
+      <td align="center">
+        <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;background-color:#ffffff;border-radius:16px;overflow:hidden;box-shadow:0 2px 8px rgba(15,36,25,0.08);">
+
+          <!-- Header -->
+          <tr>
+            <td style="background-color:#0f2419;padding:28px 32px;">
+              <table role="presentation" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td style="font-family:Georgia,serif;font-size:22px;font-weight:bold;color:#f7f3eb;">
+                    <span style="display:inline-block;background-color:#b8954a;color:#0f2419;border-radius:8px;padding:4px 10px;margin-right:10px;font-size:18px;">A</span>Abundance Abodes
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding-top:6px;">
+                    <span style="font-family:Arial,sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#d4b56a;">New Consultation Request</span>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Property of interest -->
+          <tr>
+            <td style="padding:28px 32px 0 32px;">
+              <p style="margin:0;font-family:Georgia,serif;font-size:20px;color:#1a3c2e;line-height:1.4;">
+                {{from_name}} is interested in:<br />
+                <strong style="color:#8f7338;">{{property_title}}</strong>
+              </p>
+            </td>
+          </tr>
+
+          <!-- Details -->
+          <tr>
+            <td style="padding:20px 32px 8px 32px;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-top:1px solid #e8dfd0;">
+                <tr>
+                  <td style="padding:12px 0;border-bottom:1px solid #e8dfd0;font-family:Arial,sans-serif;font-size:13px;color:#57534e;width:150px;">Full name</td>
+                  <td style="padding:12px 0;border-bottom:1px solid #e8dfd0;font-family:Arial,sans-serif;font-size:14px;font-weight:bold;color:#1c1917;">{{from_name}}</td>
+                </tr>
+                <tr>
+                  <td style="padding:12px 0;border-bottom:1px solid #e8dfd0;font-family:Arial,sans-serif;font-size:13px;color:#57534e;">Email</td>
+                  <td style="padding:12px 0;border-bottom:1px solid #e8dfd0;font-family:Arial,sans-serif;font-size:14px;"><a href="mailto:{{email}}" style="color:#1a3c2e;">{{email}}</a></td>
+                </tr>
+                <tr>
+                  <td style="padding:12px 0;border-bottom:1px solid #e8dfd0;font-family:Arial,sans-serif;font-size:13px;color:#57534e;">Phone</td>
+                  <td style="padding:12px 0;border-bottom:1px solid #e8dfd0;font-family:Arial,sans-serif;font-size:14px;"><a href="tel:{{phone}}" style="color:#1a3c2e;">{{phone}}</a></td>
+                </tr>
+                <tr>
+                  <td style="padding:12px 0;border-bottom:1px solid #e8dfd0;font-family:Arial,sans-serif;font-size:13px;color:#57534e;">Preferred time</td>
+                  <td style="padding:12px 0;border-bottom:1px solid #e8dfd0;font-family:Arial,sans-serif;font-size:14px;color:#1c1917;">{{preferred_time}}</td>
+                </tr>
+                <tr>
+                  <td style="padding:12px 0;border-bottom:1px solid #e8dfd0;font-family:Arial,sans-serif;font-size:13px;color:#57534e;">Property ref.</td>
+                  <td style="padding:12px 0;border-bottom:1px solid #e8dfd0;font-family:monospace,sans-serif;font-size:13px;color:#57534e;">{{property_slug}}</td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Message -->
+          <tr>
+            <td style="padding:16px 32px 8px 32px;">
+              <p style="margin:0 0 8px 0;font-family:Arial,sans-serif;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#8f7338;font-weight:bold;">Message</p>
+              <div style="background-color:#faf7f0;border-left:3px solid #d4b56a;border-radius:0 8px 8px 0;padding:16px 20px;font-family:Arial,sans-serif;font-size:14px;color:#44403c;line-height:1.7;white-space:pre-wrap;">{{message}}</div>
+            </td>
+          </tr>
+
+          <!-- CTA -->
+          <tr>
+            <td style="padding:24px 32px 8px 32px;" align="center">
+              <a href="mailto:{{email}}?subject=Re:%20Your%20Abundance%20Abodes%20Consultation&body=Hi%20{{from_name}}," style="display:inline-block;background-color:#1a3c2e;color:#ffffff;text-decoration:none;font-family:Arial,sans-serif;font-size:14px;font-weight:bold;padding:13px 32px;border-radius:999px;">Reply to {{from_name}}</a>
+            </td>
+          </tr>
+
+          <!-- Footer -->
+          <tr>
+            <td style="padding:24px 32px 28px 32px;">
+              <p style="margin:0;font-family:Arial,sans-serif;font-size:11px;color:#a8a29e;text-align:center;line-height:1.6;">
+                Sent from the abundanceabodes.com consultation form.<br />
+                This request has also been recorded in the enquiries dashboard.
+              </p>
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+</div>

@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" role="img" aria-label="Kitchen illustration">
+  <defs>
+    <linearGradient id="kwall" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f4eee2"/>
+      <stop offset="1" stop-color="#eadfcb"/>
+    </linearGradient>
+    <linearGradient id="kfloor" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ddd0b8"/>
+      <stop offset="1" stop-color="#c4b5a0"/>
+    </linearGradient>
+    <linearGradient id="island" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2a5542"/>
+      <stop offset="1" stop-color="#123527"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="640" fill="url(#kwall)"/>
+  <rect y="640" width="1200" height="260" fill="url(#kfloor)"/>
+  <!-- upper cabinets -->
+  <g fill="#1a3c2e">
+    <rect x="90" y="100" width="250" height="170" rx="8"/>
+    <rect x="356" y="100" width="250" height="170" rx="8"/>
+    <rect x="622" y="100" width="250" height="170" rx="8"/>
+  </g>
+  <g stroke="#b8954a" stroke-width="6" stroke-linecap="round">
+    <line x1="205" y1="185" x2="225" y2="185"/>
+    <line x1="475" y1="185" x2="495" y2="185"/>
+    <line x1="741" y1="185" x2="761" y2="185"/>
+  </g>
+  <!-- window over sink -->
+  <rect x="900" y="96" width="220" height="260" fill="#fdf9f0" stroke="#1a3c2e" stroke-width="10"/>
+  <!-- counter run -->
+  <rect x="70" y="380" width="1060" height="30" fill="#b8954a"/>
+  <rect x="70" y="410" width="1060" height="230" fill="#1a3c2e"/>
+  <g stroke="#0f2419" stroke-width="6">
+    <line x1="424" y1="410" x2="424" y2="640"/>
+    <line x1="777" y1="410" x2="777" y2="640"/>
+  </g>
+  <g stroke="#d4b56a" stroke-width="6" stroke-linecap="round">
+    <line x1="240" y1="500" x2="270" y2="500"/>
+    <line x1="595" y1="500" x2="625" y2="500"/>
+    <line x1="948" y1="500" x2="978" y2="500"/>
+  </g>
+  <!-- hood + hob -->
+  <rect x="480" y="290" width="180" height="66" rx="10" fill="#0f2419"/>
+  <rect x="520" y="368" width="104" height="12" fill="#0f2419"/>
+  <circle cx="544" cy="374" r="7" fill="#d4b56a"/>
+  <circle cx="600" cy="374" r="7" fill="#d4b56a"/>
+  <!-- island -->
+  <rect x="330" y="700" width="540" height="34" rx="8" fill="#d9c9a3"/>
+  <rect x="350" y="734" width="500" height="166" fill="url(#island)"/>
+  <!-- stools -->
+  <g fill="#b8954a">
+    <circle cx="450" cy="800" r="34"/>
+    <rect x="438" y="820" width="24" height="70"/>
+    <circle cx="750" cy="800" r="34"/>
+    <rect x="738" y="820" width="24" height="70"/>
+  </g>
+  <!-- pendants -->
+  <g stroke="#1a3c2e" stroke-width="5">
+    <line x1="480" y1="640" x2="480" y2="688"/>
+    <line x1="720" y1="640" x2="720" y2="688"/>
+  </g>
+  <path d="M450 716 A30 30 0 0 1 510 716 Z" fill="#b8954a"/>
+  <path d="M690 716 A30 30 0 0 1 750 716 Z" fill="#b8954a"/>
+</svg>

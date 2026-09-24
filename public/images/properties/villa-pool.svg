@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" role="img" aria-label="Villa with pool illustration">
+  <defs>
+    <linearGradient id="vsky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f7f3eb"/>
+      <stop offset=".62" stop-color="#f0e5cf"/>
+      <stop offset="1" stop-color="#e8dfd0"/>
+    </linearGradient>
+    <linearGradient id="vwall" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f4eee2"/>
+      <stop offset="1" stop-color="#d9c9a3"/>
+    </linearGradient>
+    <linearGradient id="pool" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#9fc4b8"/>
+      <stop offset="1" stop-color="#4f8371"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="900" fill="url(#vsky)"/>
+  <circle cx="1010" cy="160" r="86" fill="#d4b56a" opacity=".55"/>
+  <!-- flat-roof villa -->
+  <rect x="150" y="330" width="640" height="290" fill="url(#vwall)"/>
+  <rect x="130" y="306" width="680" height="30" fill="#0f2419"/>
+  <rect x="790" y="420" width="260" height="200" fill="#1a3c2e"/>
+  <rect x="776" y="398" width="288" height="26" fill="#0f2419"/>
+  <!-- glazing -->
+  <g fill="#123527" opacity=".88">
+    <rect x="190" y="380" width="150" height="240"/>
+    <rect x="370" y="380" width="150" height="170"/>
+    <rect x="550" y="380" width="150" height="240"/>
+    <rect x="820" y="460" width="200" height="120"/>
+  </g>
+  <line x1="265" y1="384" x2="265" y2="618" stroke="#0f2419" stroke-width="8"/>
+  <line x1="445" y1="384" x2="445" y2="550" stroke="#0f2419" stroke-width="8"/>
+  <line x1="625" y1="384" x2="625" y2="618" stroke="#0f2419" stroke-width="8"/>
+  <!-- pool -->
+  <path d="M300 700 Q600 668 900 702 L900 790 Q600 762 300 788 Z" fill="url(#pool)"/>
+  <path d="M340 716 Q480 704 620 716" stroke="#fdf9f0" stroke-width="6" fill="none" opacity=".5"/>
+  <path d="M400 752 Q560 740 720 752" stroke="#fdf9f0" stroke-width="6" fill="none" opacity=".35"/>
+  <!-- deck -->
+  <rect x="250" y="788" width="720" height="18" rx="6" fill="#c4b5a0"/>
+  <!-- cabana -->
+  <polygon points="950,640 1120,640 1085,606 985,606" fill="#b8954a"/>
+  <rect x="962" y="640" width="146" height="110" fill="none" stroke="#8f7338" stroke-width="10"/>
+  <line x1="1000" y1="646" x2="1000" y2="750" stroke="#8f7338" stroke-width="10"/>
+  <line x1="1072" y1="646" x2="1072" y2="750" stroke="#8f7338" stroke-width="10"/>
+  <!-- loungers -->
+  <g fill="#fdf9f0">
+    <rect x="330" y="800" width="90" height="20" rx="8"/>
+    <rect x="470" y="800" width="90" height="20" rx="8"/>
+  </g>
+  <!-- palms -->
+  <g stroke="#123527" stroke-width="12" fill="none" stroke-linecap="round">
+    <path d="M80 700 C84 600 76 520 84 470"/>
+  </g>
+  <g fill="#2a5542">
+    <ellipse cx="52" cy="458" rx="56" ry="19" transform="rotate(-30 52 458)"/>
+    <ellipse cx="118" cy="452" rx="56" ry="19" transform="rotate(24 118 452)"/>
+  </g>
+  <path d="M0 792 Q300 768 600 788 T1200 782 V900 H0 Z" fill="#1a3c2e"/>
+</svg>

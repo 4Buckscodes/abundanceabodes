@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" role="img" aria-label="Commercial land parcel illustration">
+  <defs>
+    <linearGradient id="isky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f7f3eb"/>
+      <stop offset=".68" stop-color="#eee3cb"/>
+      <stop offset="1" stop-color="#e8dfd0"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="900" fill="url(#isky)"/>
+  <circle cx="960" cy="170" r="92" fill="#d4b56a" opacity=".5"/>
+  <!-- access road -->
+  <polygon points="80,900 320,900 620,300 520,270" fill="#c4b5a0"/>
+  <polygon points="150,900 250,900 545,340 495,322" fill="#fdf9f0" opacity=".4"/>
+  <!-- boundary markers -->
+  <rect x="480" y="120" width="600" height="620" fill="none" stroke="#1a3c2e" stroke-width="14"/>
+  <g fill="#1a3c2e">
+    <rect x="468" y="108" width="24" height="24"/>
+    <rect x="1068" y="108" width="24" height="24"/>
+    <rect x="468" y="728" width="24" height="24"/>
+    <rect x="1068" y="728" width="24" height="24"/>
+  </g>
+  <!-- interior division -->
+  <line x1="780" y1="120" x2="780" y2="740" stroke="#8f7338" stroke-width="10"/>
+  <line x1="480" y1="430" x2="1080" y2="430" stroke="#8f7338" stroke-width="10"/>
+  <text x="0" y="0"></text>
+  <!-- warehouse silhouette in distance -->
+  <g fill="#1a3c2e" opacity=".85">
+    <polygon points="700,220 860,160 1020,220 1020,260 700,260"/>
+    <rect x="720" y="260" width="280" height="40"/>
+  </g>
+  <!-- gate -->
+  <g stroke="#b8954a" stroke-width="12">
+    <line x1="500" y1="740" x2="500" y2="800"/>
+    <line x1="560" y1="740" x2="560" y2="800"/>
+    <line x1="500" y1="756" x2="560" y2="756"/>
+    <line x1="500" y1="784" x2="560" y2="784"/>
+  </g>
+</svg>

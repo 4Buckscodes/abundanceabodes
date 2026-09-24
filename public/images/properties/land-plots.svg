@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" role="img" aria-label="Surveyed land plots illustration">
+  <defs>
+    <linearGradient id="lsoil" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#efe6d2"/>
+      <stop offset="1" stop-color="#dccbaa"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="900" fill="url(#lsoil)"/>
+  <!-- boundary -->
+  <rect x="100" y="100" width="1000" height="700" fill="#fdf9f0" stroke="#1a3c2e" stroke-width="12"/>
+  <!-- grid plots -->
+  <g stroke="#8f7338" stroke-width="8" fill="#f4eee2">
+    <rect x="160" y="160" width="270" height="180"/>
+    <rect x="465" y="160" width="270" height="180"/>
+    <rect x="770" y="160" width="270" height="180"/>
+    <rect x="160" y="375" width="270" height="180"/>
+    <rect x="465" y="375" width="270" height="180"/>
+    <rect x="770" y="375" width="270" height="180"/>
+    <rect x="160" y="590" width="270" height="150"/>
+    <rect x="465" y="590" width="270" height="150"/>
+    <rect x="770" y="590" width="270" height="150"/>
+  </g>
+  <!-- highlighted plot -->
+  <rect x="465" y="375" width="270" height="180" fill="#d4b56a" opacity=".65"/>
+  <!-- survey markers -->
+  <g fill="#1a3c2e">
+    <circle cx="160" cy="160" r="14"/>
+    <circle cx="1040" cy="160" r="14"/>
+    <circle cx="160" cy="740" r="14"/>
+    <circle cx="1040" cy="740" r="14"/>
+  </g>
+  <!-- north arrow -->
+  <g transform="translate(1075,95)">
+    <circle r="44" fill="#fdf9f0" stroke="#1a3c2e" stroke-width="8"/>
+    <polygon points="0,-28 -13,10 0,2 13,10" fill="#b8954a"/>
+  </g>
+</svg>

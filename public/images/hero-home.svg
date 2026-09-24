@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" role="img" aria-label="Modern Nigerian home at dusk illustration">
+  <defs>
+    <linearGradient id="hsky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f7f3eb"/>
+      <stop offset=".55" stop-color="#efe2c4"/>
+      <stop offset="1" stop-color="#e3cfa4"/>
+    </linearGradient>
+    <linearGradient id="hwallA" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f4eee2"/>
+      <stop offset="1" stop-color="#d9c9a3"/>
+    </linearGradient>
+    <linearGradient id="hglass" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fdf6dd"/>
+      <stop offset="1" stop-color="#e8cf92"/>
+    </linearGradient>
+    <linearGradient id="hground" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1a3c2e"/>
+      <stop offset="1" stop-color="#0f2419"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="1000" fill="url(#hsky)"/>
+  <!-- sun -->
+  <circle cx="1240" cy="250" r="120" fill="#d4b56a" opacity=".6"/>
+  <circle cx="1240" cy="250" r="170" fill="#d4b56a" opacity=".18"/>
+  <!-- birds -->
+  <g stroke="#57534e" stroke-width="6" fill="none" stroke-linecap="round">
+    <path d="M330 210 Q350 194 370 210 Q390 194 410 210"/>
+    <path d="M420 260 Q436 248 452 260 Q468 248 484 260"/>
+  </g>
+  <!-- main house -->
+  <rect x="330" y="380" width="560" height="330" fill="url(#hwallA)"/>
+  <!-- mono-pitch roof -->
+  <polygon points="300,392 920,340 920,392 300,444" fill="#123527"/>
+  <!-- upper volume -->
+  <rect x="890" y="270" width="320" height="440" fill="#1a3c2e"/>
+  <rect x="876" y="252" width="348" height="24" rx="6" fill="#0f2419"/>
+  <!-- glowing glazing -->
+  <g fill="url(#hglass)">
+    <rect x="380" y="450" width="180" height="180"/>
+    <rect x="610" y="450" width="220" height="260"/>
+    <rect x="930" y="330" width="240" height="120"/>
+    <rect x="930" y="500" width="240" height="140"/>
+  </g>
+  <g stroke="#0f2419" stroke-width="10">
+    <line x1="470" y1="454" x2="470" y2="626"/>
+    <line x1="720" y1="454" x2="720" y2="706"/>
+    <line x1="1050" y1="334" x2="1050" y2="636"/>
+  </g>
+  <!-- balcony -->
+  <rect x="912" y="452" width="276" height="16" rx="8" fill="#d4b56a"/>
+  <g stroke="#d4b56a" stroke-width="6">
+    <line x1="922" y1="462" x2="922" y2="498"/><line x1="986" y1="462" x2="986" y2="498"/><line x1="1050" y1="462" x2="1050" y2="498"/><line x1="1114" y1="462" x2="1114" y2="498"/><line x1="1178" y1="462" x2="1178" y2="498"/>
+  </g>
+  <!-- door + path -->
+  <rect x="620" y="600" width="90" height="110" fill="#b8954a"/>
+  <circle cx="640" cy="656" r="6" fill="#0f2419"/>
+  <polygon points="560,900 700,900 760,710 680,704" fill="#c4b5a0" opacity=".35"/>
+  <!-- ground -->
+  <path d="M0 710 Q400 668 800 700 T1600 692 V1000 H0 Z" fill="url(#hground)"/>
+  <!-- pool glow -->
+  <ellipse cx="1180" cy="780" rx="190" ry="52" fill="#4f8371"/>
+  <ellipse cx="1180" cy="776" rx="150" ry="38" fill="#9fc4b8" opacity=".55"/>
+  <!-- palms -->
+  <g stroke="#123527" stroke-width="14" fill="none" stroke-linecap="round">
+    <path d="M170 720 C166 600 174 520 168 460"/>
+    <path d="M1480 740 C1484 630 1476 550 1482 480"/>
+  </g>
+  <g fill="#2a5542">
+    <ellipse cx="132" cy="450" rx="62" ry="21" transform="rotate(-28 132 450)"/>
+    <ellipse cx="208" cy="442" rx="62" ry="21" transform="rotate(22 208 442)"/>
+    <ellipse cx="1440" cy="472" rx="58" ry="20" transform="rotate(-26 1440 472)"/>
+    <ellipse cx="1524" cy="464" rx="58" ry="20" transform="rotate(24 1524 464)"/>
+  </g>
+</svg>

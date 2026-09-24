@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" role="img" aria-label="Courtyard apartment block illustration">
+  <defs>
+    <linearGradient id="csky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f7f3eb"/>
+      <stop offset="1" stop-color="#eee3cb"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="900" fill="url(#csky)"/>
+  <circle cx="220" cy="160" r="84" fill="#d4b56a" opacity=".5"/>
+  <!-- U-shaped block around courtyard -->
+  <rect x="150" y="250" width="240" height="440" fill="#2a5542"/>
+  <rect x="810" y="250" width="240" height="440" fill="#2a5542"/>
+  <rect x="390" y="330" width="420" height="200" fill="#1a3c2e"/>
+  <!-- windows -->
+  <g fill="#f4eee2" opacity=".85">
+    <rect x="185" y="290" width="54" height="72"/>
+    <rect x="285" y="290" width="54" height="72"/>
+    <rect x="185" y="400" width="54" height="72"/>
+    <rect x="285" y="400" width="54" height="72"/>
+    <rect x="185" y="510" width="54" height="72"/>
+    <rect x="285" y="510" width="54" height="72"/>
+    <rect x="845" y="290" width="54" height="72"/>
+    <rect x="945" y="290" width="54" height="72"/>
+    <rect x="845" y="400" width="54" height="72"/>
+    <rect x="945" y="400" width="54" height="72"/>
+    <rect x="845" y="510" width="54" height="72"/>
+    <rect x="945" y="510" width="54" height="72"/>
+    <rect x="430" y="370" width="60" height="70"/>
+    <rect x="530" y="370" width="60" height="70"/>
+    <rect x="630" y="370" width="60" height="70"/>
+    <rect x="430" y="450" width="60" height="60"/>
+    <rect x="530" y="450" width="60" height="60"/>
+    <rect x="630" y="450" width="60" height="60"/>
+  </g>
+  <!-- roof caps -->
+  <g fill="#0f2419">
+    <rect x="136" y="236" width="268" height="18" rx="6"/>
+    <rect x="396" y="316" width="408" height="18" rx="6"/>
+    <rect x="796" y="236" width="268" height="18" rx="6"/>
+  </g>
+  <!-- courtyard -->
+  <ellipse cx="600" cy="740" rx="330" ry="90" fill="#c4b5a0" opacity=".45"/>
+  <g fill="#2a5542">
+    <ellipse cx="430" cy="716" rx="58" ry="44"/>
+    <ellipse cx="770" cy="716" rx="58" ry="44"/>
+  </g>
+  <circle cx="600" cy="700" r="34" fill="#d4b56a"/>
+  <path d="M0 800 Q400 776 800 794 T1200 788 V900 H0 Z" fill="#1a3c2e"/>
+</svg>

@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" role="img" aria-label="Terrace houses illustration">
+  <defs>
+    <linearGradient id="ttky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f7f3eb"/>
+      <stop offset=".6" stop-color="#eee3cb"/>
+      <stop offset="1" stop-color="#e8dfd0"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="900" fill="url(#ttky)"/>
+  <circle cx="180" cy="180" r="95" fill="#d4b56a" opacity=".5"/>
+  <!-- three terraced units, alternating tones -->
+  <g>
+    <rect x="140" y="360" width="280" height="330" fill="#efe6d2"/>
+    <polygon points="120,370 280,270 440,370" fill="#1a3c2e"/>
+    <rect x="440" y="360" width="280" height="330" fill="#e3d7c2"/>
+    <polygon points="440,368 580,270 720,368" fill="#123527"/>
+    <rect x="740" y="360" width="280" height="330" fill="#efe6d2"/>
+    <polygon points="720,370 880,270 1040,370" fill="#1a3c2e"/>
+  </g>
+  <!-- windows & doors -->
+  <g fill="#123527">
+    <rect x="185" y="420" width="80" height="110"/>
+    <rect x="320" y="420" width="70" height="270"/>
+    <rect x="485" y="420" width="80" height="110"/>
+    <rect x="615" y="420" width="70" height="270"/>
+    <rect x="790" y="420" width="80" height="110"/>
+    <rect x="925" y="420" width="70" height="270"/>
+  </g>
+  <g fill="#b8954a">
+    <circle cx="334" cy="556" r="6"/>
+    <circle cx="629" cy="556" r="6"/>
+    <circle cx="939" cy="556" r="6"/>
+  </g>
+  <!-- parapet caps -->
+  <g fill="#0f2419">
+    <rect x="128" y="352" width="304" height="14" rx="6"/>
+    <rect x="428" y="352" width="304" height="14" rx="6"/>
+    <rect x="728" y="352" width="304" height="14" rx="6"/>
+  </g>
+  <!-- low front wall + hedge -->
+  <rect x="90" y="700" width="1020" height="26" fill="#c4b5a0"/>
+  <g fill="#2a5542">
+    <ellipse cx="220" cy="694" rx="64" ry="34"/>
+    <ellipse cx="600" cy="694" rx="64" ry="34"/>
+    <ellipse cx="980" cy="694" rx="64" ry="34"/>
+  </g>
+  <path d="M0 830 Q400 806 800 826 T1200 820 V900 H0 Z" fill="#1a3c2e"/>
+</svg>
