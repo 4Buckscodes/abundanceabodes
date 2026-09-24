@@ -9,7 +9,8 @@ Client-first real estate brokerage website for a Nigerian property firm.
 - **Next.js 15** (App Router) + **TypeScript**
 - **Tailwind CSS v4**
 - **Supabase-ready data layer** (PostgREST via `fetch`, zero extra dependencies)
-- Deployable to **Vercel** (zero-config Next.js)
+- Deployable to **Vercel** (zero-config Next.js) — migration target
+- Currently also deployable to **Netlify** via `@netlify/plugin-nextjs`
 
 ## Getting started
 
@@ -67,10 +68,21 @@ supabase/schema.sql             # Tables, indexes, RLS policies
 - **Admin:** server-side protection in `src/middleware.ts` *and* the layout; writes are enabled only when Supabase is connected (honest preview mode otherwise).
 - **SEO:** per-page titles/descriptions, Open Graph/Twitter cards, `robots.txt`, `sitemap.xml`, Organization/WebSite/FAQ structured data.
 
-## Vercel
+## Deployment
+
+**Migration in progress: Netlify → Vercel.** Both configs are kept so the live
+Netlify site stays up until the Vercel deployment is verified.
+
+### Vercel (target)
 
 Import the GitHub repo at [vercel.com/new](https://vercel.com/new) — Next.js is
-detected automatically, no build config needed. Set the environment variables
-from `.env.example` in **Project → Settings → Environment Variables** before the
-first deploy (`GROQ_API_KEY`, optional `GROQ_MODEL`, and the Supabase keys). Push
-to `main` to trigger a production deploy.
+detected automatically. `vercel.json` pins the serverless region to `fra1`
+(Frankfurt), the lowest-latency Vercel region for West African visitors. Set the
+environment variables from `.env.example` in **Project → Settings → Environment
+Variables** before the first deploy (`GROQ_API_KEY`, optional `GROQ_MODEL`, and
+the Supabase keys). Push to `main` to trigger a production deploy.
+
+### Netlify (current)
+
+`netlify.toml` is configured for the Next.js runtime plugin. Remove it once the
+Vercel deployment is confirmed working.
