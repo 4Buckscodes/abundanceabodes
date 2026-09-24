@@ -101,7 +101,7 @@ export default async function AdminPropertiesPage({
                         title={
                           isAdminDatabaseConfigured()
                             ? "Duplicate this property"
-                            : "Requires the server database key (SUPABASE_SERVICE_ROLE_KEY)"
+                            : "Requires the server database key (SUPABASE_SECRET_KEY)"
                         }
                         className="rounded-lg border border-brand-stone/60 px-3 py-1.5 text-xs font-semibold text-brand-forest transition-colors hover:bg-brand-sand/50 disabled:opacity-40"
                       >
@@ -116,7 +116,7 @@ export default async function AdminPropertiesPage({
                         title={
                           isAdminDatabaseConfigured()
                             ? "Delete this property"
-                            : "Requires the server database key (SUPABASE_SERVICE_ROLE_KEY)"
+                            : "Requires the server database key (SUPABASE_SECRET_KEY)"
                         }
                         className="rounded-lg border border-red-200 px-3 py-1.5 text-xs font-semibold text-red-700 transition-colors hover:bg-red-50 disabled:opacity-40"
                       >

@@ -28,7 +28,8 @@ Copy `.env.example` to `.env.local`. Everything is optional:
 | Variable | Purpose |
 | --- | --- |
 | `NEXT_PUBLIC_SITE_URL` | Canonical URLs, sitemap, JSON-LD |
-| `NEXT_PUBLIC_SUPABASE_URL` / `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Live database (run `supabase/schema.sql` first). Without them the site renders seed data. |
+| `NEXT_PUBLIC_SUPABASE_URL` / `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` | Live database, public reads (run `supabase/schema.sql` first). Without them the site renders seed data. Legacy `NEXT_PUBLIC_SUPABASE_ANON_KEY` is still accepted as a fallback. |
+| `SUPABASE_SECRET_KEY` | **Server-only** privileged key for admin saves/deletes, the enquiry inbox and image uploads (never prefix with `NEXT_PUBLIC_`). Legacy `SUPABASE_SERVICE_ROLE_KEY` is still accepted as a fallback. |
 | `NEXT_PUBLIC_EMAILJS_*` | Consultation-form email delivery. Without them submissions are recorded through `/api/enquiries` when Supabase is present. |
 | `ADMIN_PASSWORD` (+ optional `ADMIN_SESSION_SECRET`) | Enables sign-in at `/admin`. |
 

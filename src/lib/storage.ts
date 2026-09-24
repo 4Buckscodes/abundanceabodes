@@ -1,12 +1,15 @@
 /**
  * Server-side Supabase Storage helpers for property imagery.
  *
- * Uses SUPABASE_SERVICE_ROLE_KEY (server-only, never NEXT_PUBLIC).
- * All requests run inside authenticated admin API routes.
+ * Uses the server-only secret key (SUPABASE_SECRET_KEY, legacy
+ * SUPABASE_SERVICE_ROLE_KEY as fallback) via supabaseServerConfig() — never a
+ * NEXT_PUBLIC value. All requests run inside authenticated admin API routes.
  *
  * Images live in the public "property-images" bucket, which is created
  * automatically on first upload if missing, so no dashboard setup needed.
  */
+
+import { supabaseServerConfig } from "@/lib/supabase";
 
 const BUCKET = "property-images";
 const MAX_BYTES = 5 * 1024 * 1024;
@@ -18,16 +21,13 @@ const EXT_BY_MIME: Record<string, string> = {
 };
 
 export function isSupabaseStorageReady(): boolean {
-  return Boolean(
-    process.env.SUPABASE_SERVICE_ROLE_KEY &&
-      process.env.NEXT_PUBLIC_SUPABASE_URL
-  );
+  return supabaseServerConfig() !== null;
 }
 
 function cfg(): { url: string; key: string } {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY!;
-  return { url: url.replace(/\/$/, ""), key };
+  const c = supabaseServerConfig();
+  if (!c) throw new Error("Supabase server config unavailable");
+  return c;
 }
 
 function headers(extra: Record<string, string> = {}) {
@@ -68,7 +68,7 @@ export async function uploadImage(
   if (!isSupabaseStorageReady()) {
     return {
       ok: false,
-      error: "Uploads are not configured yet (missing service role key).",
+      error: "Uploads are not configured yet (missing server secret key).",
     };
   }
 
@@ -114,7 +114,7 @@ export async function uploadImage(
     if (res.status === 401 || res.status === 403) {
       return {
         ok: false,
-        error: "Storage rejected the upload — check the service role key.",
+        error: "Storage rejected the upload — check SUPABASE_SECRET_KEY.",
       };
     }
     return { ok: false, error: "Storage upload failed. Please try again." };

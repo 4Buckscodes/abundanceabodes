@@ -9,6 +9,7 @@ import {
   dbUpsertProperty,
   isAdminDatabaseConfigured,
   isSupabaseConfigured,
+  supabaseServerConfig,
 } from "@/lib/supabase";
 
 export type DiagCheck = { name: string; ok: boolean; detail: string };
@@ -41,15 +42,16 @@ function probeProperty(): Property {
 }
 
 async function storageBucketCheck(): Promise<DiagCheck> {
-  if (!isSupabaseStorageReady()) {
+  const cfg = supabaseServerConfig();
+  if (!isSupabaseStorageReady() || !cfg) {
     return {
       name: "Image storage (bucket)",
       ok: false,
-      detail: "SUPABASE_SERVICE_ROLE_KEY or NEXT_PUBLIC_SUPABASE_URL missing — uploads disabled.",
+      detail: "SUPABASE_SECRET_KEY or NEXT_PUBLIC_SUPABASE_URL missing — uploads disabled.",
     };
   }
-  const base = process.env.NEXT_PUBLIC_SUPABASE_URL!.replace(/\/$/, "");
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY!;
+  const base = cfg.url;
+  const key = cfg.key;
   try {
     const res = await fetch(`${base}/storage/v1/bucket/property-images`, {
       headers: { apikey: key, Authorization: `Bearer ${key}` },
@@ -85,19 +87,19 @@ export async function runDiagnosticsAction(
   const checks: DiagCheck[] = [];
 
   checks.push({
-    name: "Public credentials (URL + anon key)",
+    name: "Public credentials (URL + publishable key)",
     ok: isSupabaseConfigured(),
     detail: isSupabaseConfigured()
       ? "Set — public reads and the site catalogue can use the database."
-      : "Missing — set NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY, then restart.",
+      : "Missing — set NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY, then restart.",
   });
 
   checks.push({
-    name: "Server database key (service role)",
+    name: "Server database key (secret)",
     ok: isAdminDatabaseConfigured(),
     detail: isAdminDatabaseConfigured()
       ? "Set — admin saves, deletes and the enquiry inbox are enabled."
-      : "Missing — set SUPABASE_SERVICE_ROLE_KEY (Supabase dashboard → Settings → API), then restart. Saves are disabled until then.",
+      : "Missing — set SUPABASE_SECRET_KEY (Supabase dashboard → Settings → API keys), then restart. Saves are disabled until then.",
   });
 
   try {
@@ -108,7 +110,7 @@ export async function runDiagnosticsAction(
       detail:
         rows !== null
           ? `Readable — ${rows.length} row(s) in the properties table${rows.length === 0 ? " (site shows seed data until you add one)" : ""}.`
-          : "Read failed — check the URL/anon key and that supabase/schema.sql was applied.",
+          : "Read failed — check the URL/publishable key and that supabase/schema.sql was applied.",
     });
   } catch (e) {
     checks.push({
@@ -126,7 +128,7 @@ export async function runDiagnosticsAction(
       detail:
         inbox !== null
           ? `Readable — ${inbox.length} stored enquirie(s).`
-          : "Read failed — the service role key is required (see above).",
+          : "Read failed — the secret key is required (see above).",
     });
   } catch (e) {
     checks.push({

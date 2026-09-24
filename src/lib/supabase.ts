@@ -6,26 +6,45 @@
  * provisions their project they only need to set:
  *
  *   NEXT_PUBLIC_SUPABASE_URL=...
- *   NEXT_PUBLIC_SUPABASE_ANON_KEY=...
+ *   NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=sb_publishable_...
  *
  * and every repository in src/lib/data/index.ts switches from seed data to
  * the live database without code changes.
  *
+ * Supabase's new API-key system (sb_publishable_… / sb_secret_…) replaces the
+ * legacy anon / service_role JWTs. Both are supported here: the new names are
+ * preferred and the legacy names remain as a temporary fallback during
+ * migration. Publishable and secret keys are sent the same way as the old keys
+ * (apikey + Authorization: Bearer), so only the env resolution changes.
+ *
  * Admin writes (property saves/deletes) and the enquiry inbox do NOT use the
- * anon key: the dashboard authenticates with its own HMAC session cookie
- * (see src/lib/auth.ts), not Supabase Auth, so the anon key can never satisfy
- * the admin-only RLS policies. Those helpers run exclusively on the server
- * (server components, server actions, API routes) and use
- * SUPABASE_SERVICE_ROLE_KEY via adminRest() instead.
+ * publishable key: the dashboard authenticates with its own HMAC session cookie
+ * (see src/lib/auth.ts), not Supabase Auth, so the publishable key can never
+ * satisfy the admin-only RLS policies. Those helpers run exclusively on the
+ * server (server components, server actions, API routes) and use the secret
+ * key via adminRest() instead.
  */
 import type { Enquiry, Property } from "@/lib/types";
 
 export const SUPABASE_URL_ENV = "NEXT_PUBLIC_SUPABASE_URL";
+// Public (browser-safe) key. New name preferred; legacy anon key still read.
+export const SUPABASE_PUBLISHABLE_KEY_ENV = "NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY";
 export const SUPABASE_ANON_KEY_ENV = "NEXT_PUBLIC_SUPABASE_ANON_KEY";
+// Server-only privileged key. New name preferred; legacy service_role still read.
+export const SUPABASE_SECRET_KEY_ENV = "SUPABASE_SECRET_KEY";
+export const SUPABASE_SERVICE_ROLE_KEY_ENV = "SUPABASE_SERVICE_ROLE_KEY";
+
+/** Public/browser key: new publishable key preferred, legacy anon as fallback. */
+function publishableKey(): string | undefined {
+  return (
+    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ||
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  );
+}
 
 function env(): { url: string; key: string } | null {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  const key = publishableKey();
   if (!url || !key) return null;
   return { url: url.replace(/\/$/, ""), key };
 }
@@ -35,25 +54,44 @@ export function isSupabaseConfigured(): boolean {
 }
 
 /* ------------------------------------------------------------------ */
-/* Privileged server access (service role)                             */
+/* Privileged server access (secret key)                               */
 /* ------------------------------------------------------------------ */
+
+/**
+ * Server-only secret key: new sb_secret_… key preferred, legacy service_role
+ * as a temporary migration fallback. Never prefixed with NEXT_PUBLIC_, and
+ * only ever read behind the `typeof window` guard in serviceEnv().
+ */
+function secretKey(): string | undefined {
+  return process.env.SUPABASE_SECRET_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY;
+}
 
 /**
  * Server-side credentials for admin writes and the enquiry inbox.
  *
- * Guarded to the server (`typeof window` check) so the service role key —
- * which bypasses Row Level Security — can never be used from the browser,
- * even if one of these helpers were imported from client code by mistake.
- * Every caller is a server component, server action or API route, each
- * gated by the admin session cookie (except the public enquiry insert,
- * whose payload is validated in src/app/api/enquiries/route.ts first).
+ * Guarded to the server (`typeof window` check) so the secret key — which
+ * bypasses Row Level Security — can never be used from the browser, even if
+ * one of these helpers were imported from client code by mistake. Every caller
+ * is a server component, server action or API route, each gated by the admin
+ * session cookie (except the public enquiry insert, whose payload is validated
+ * in src/app/api/enquiries/route.ts first).
  */
 function serviceEnv(): { url: string; key: string } | null {
   if (typeof window !== "undefined") return null;
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  const key = secretKey();
   if (!url || !key) return null;
   return { url: url.replace(/\/$/, ""), key };
+}
+
+/**
+ * Server-only Supabase config (URL + secret key), for other server modules
+ * (storage, diagnostics) so the new/legacy key resolution and the
+ * browser guard live in exactly one place. Returns null on the client or when
+ * the secret key/URL is missing.
+ */
+export function supabaseServerConfig(): { url: string; key: string } | null {
+  return serviceEnv();
 }
 
 /** True when admin saves, deletes and the enquiry inbox can work. */
@@ -75,7 +113,7 @@ export function describeWriteError(outcome: Extract<WriteOutcome, { ok: false }>
     return `Could not reach the database: ${outcome.error}`;
   }
   if (outcome.status === 401 || outcome.status === 403) {
-    return "The database rejected the server credentials (HTTP 401/403). Check SUPABASE_SERVICE_ROLE_KEY in the environment (Supabase dashboard → Settings → API), then restart the server.";
+    return "The database rejected the server credentials (HTTP 401/403). Check SUPABASE_SECRET_KEY in the environment (Supabase dashboard → Settings → API keys), then restart the server.";
   }
   if (outcome.status === 404) {
     return "The table was not found (HTTP 404). Run supabase/schema.sql in the Supabase SQL editor, then try again.";
@@ -132,7 +170,7 @@ async function adminWrite(
     return {
       ok: false,
       status: 0,
-      error: "SUPABASE_SERVICE_ROLE_KEY is not configured on the server.",
+      error: "SUPABASE_SECRET_KEY is not configured on the server.",
     };
   }
 
@@ -331,8 +369,8 @@ export async function dbUpsertProperty(property: Property): Promise<WriteOutcome
     updated_at: new Date().toISOString(),
   };
   // Privileged: called only from the admin server actions, which verify the
-  // HMAC session cookie first. The anon key can never satisfy the
-  // admin-only RLS policies, so this uses the service role (bypasses RLS).
+  // HMAC session cookie first. The publishable key can never satisfy the
+  // admin-only RLS policies, so this uses the secret key (bypasses RLS).
   const outcome = await adminWrite(`properties`, {
     method: "POST",
     body: JSON.stringify([row]),
@@ -356,11 +394,11 @@ export type EnquiryInsertResult = "stored" | "not-writable" | "error";
 
 /**
  * Inserts an enquiry. Called server-side from /api/enquiries, whose payload
- * is validated before this runs. Prefers the service role (immune to a
- * missing/misapplied insert policy) and falls back to the anon key, which
- * relies on the "anyone can submit enquiries" RLS policy. Returns
- * "not-writable" when neither credential is available or the anon attempt
- * is rejected for authorisation reasons, so callers can treat it as
+ * is validated before this runs. Prefers the secret key (immune to a
+ * missing/misapplied insert policy) and falls back to the publishable key,
+ * which relies on the "anyone can submit enquiries" RLS policy. Returns
+ * "not-writable" when neither credential is available or the publishable
+ * attempt is rejected for authorisation reasons, so callers can treat it as
  * setup-pending rather than a hard failure.
  */
 export async function dbInsertEnquiry(input: {
@@ -403,8 +441,8 @@ export async function dbInsertEnquiry(input: {
       ]),
     });
     if (res.ok) return "stored";
-    // The service role bypasses RLS, so any rejection there is a real
-    // failure. The anon key depends on the insert policy being applied —
+    // The secret key bypasses RLS, so any rejection there is a real
+    // failure. The publishable key depends on the insert policy being applied —
     // an auth rejection there means setup is still pending.
     if (!svc && (res.status === 401 || res.status === 403)) return "not-writable";
     return "error";
@@ -415,7 +453,7 @@ export async function dbInsertEnquiry(input: {
 
 export async function dbListEnquiries(): Promise<Enquiry[] | null> {
   // Privileged: admin dashboard server components only (HMAC-gated). The
-  // anon key can never satisfy the admin-only select policy.
+  // publishable key can never satisfy the admin-only select policy.
   const rows = await adminRest<
     {
       id: string;

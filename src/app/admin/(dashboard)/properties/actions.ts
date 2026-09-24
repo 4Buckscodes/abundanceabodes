@@ -16,7 +16,7 @@ export async function savePropertyAction(
   if (!isAdminDatabaseConfigured()) {
     return {
       error:
-        "Saving needs the server database key. Set SUPABASE_SERVICE_ROLE_KEY (Supabase dashboard → Settings → API) alongside NEXT_PUBLIC_SUPABASE_URL, then restart the server.",
+        "Saving needs the server database key. Set SUPABASE_SECRET_KEY (Supabase dashboard → Settings → API keys) alongside NEXT_PUBLIC_SUPABASE_URL, then restart the server.",
     };
   }
 

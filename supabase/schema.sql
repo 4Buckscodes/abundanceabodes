@@ -3,7 +3,9 @@
 -- Run this in the Supabase SQL editor when the client's project
 -- is created, then set:
 --   NEXT_PUBLIC_SUPABASE_URL=...
---   NEXT_PUBLIC_SUPABASE_ANON_KEY=...
+--   NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=sb_publishable_...   (public reads)
+--   SUPABASE_SECRET_KEY=sb_secret_...                        (server-only writes)
+-- (Legacy anon / service_role keys are still accepted as fallbacks.)
 -- The app switches from seed data to these tables automatically.
 -- ============================================================
 
@@ -115,13 +117,13 @@ create table if not exists public.site_content (
 
 -- ============================================================
 -- Row Level Security
--- Public site reads via anon key; writes only for authenticated
--- admin users. Create an admin user under Authentication and add
--- their id to the admins table below.
+-- Public site reads via the publishable key; writes only for
+-- authenticated admin users. Create an admin user under Authentication
+-- and add their id to the admins table below.
 --
--- NOTE: the Next.js app itself does NOT write with the anon key. Its
+-- NOTE: the Next.js app itself does NOT write with the publishable key. Its
 -- admin dashboard uses its own session cookie and performs all writes
--- server-side with SUPABASE_SERVICE_ROLE_KEY (which bypasses RLS), so
+-- server-side with SUPABASE_SECRET_KEY (which bypasses RLS), so
 -- these policies are a second layer of defence for direct API access
 -- rather than the mechanism the app depends on.
 -- ============================================================

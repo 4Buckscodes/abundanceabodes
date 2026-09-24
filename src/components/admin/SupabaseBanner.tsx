@@ -19,9 +19,9 @@ export function SupabaseBanner() {
         <strong className="font-semibold">Reads only:</strong> the public
         Supabase credentials are set, but saves need the server-only{" "}
         <code className="rounded bg-brand-forest/10 px-1.5 py-0.5 font-mono text-xs">
-          SUPABASE_SERVICE_ROLE_KEY
+          SUPABASE_SECRET_KEY
         </code>{" "}
-        (Supabase dashboard → Settings → API). Add it to the environment and
+        (Supabase dashboard → Settings → API keys). Add it to the environment and
         restart the server to enable editing.{" "}
         <Link href="/admin/diagnostics" className="font-semibold underline underline-offset-2 hover:opacity-80">
           Run diagnostics
@@ -39,7 +39,7 @@ export function SupabaseBanner() {
       </code>{" "}
       and{" "}
       <code className="rounded bg-brand-forest/10 px-1.5 py-0.5 font-mono text-xs">
-        NEXT_PUBLIC_SUPABASE_ANON_KEY
+        NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY
       </code>{" "}
       are set (schema in <code className="font-mono text-xs">supabase/schema.sql</code>),
       full editing activates automatically.

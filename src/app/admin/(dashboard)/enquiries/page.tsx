@@ -46,7 +46,7 @@ export default async function AdminEnquiriesPage() {
             Consultation submissions are stored in the{" "}
             <code className="rounded bg-brand-forest/10 px-1.5 py-0.5 font-mono text-xs">enquiries</code>{" "}
             table once the server database key{" "}
-            <code className="rounded bg-brand-forest/10 px-1.5 py-0.5 font-mono text-xs">SUPABASE_SERVICE_ROLE_KEY</code>{" "}
+            <code className="rounded bg-brand-forest/10 px-1.5 py-0.5 font-mono text-xs">SUPABASE_SECRET_KEY</code>{" "}
             is set. Until then, requests reach the team
             through email delivery (EmailJS) when configured.
           </p>

@@ -2,7 +2,7 @@ import type { Property } from "@/lib/types";
 
 /**
  * Seed catalogue used until Supabase credentials are connected.
- * Once NEXT_PUBLIC_SUPABASE_URL / NEXT_PUBLIC_SUPABASE_ANON_KEY are present,
+ * Once NEXT_PUBLIC_SUPABASE_URL / NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY are present,
  * the data layer in src/lib/data/index.ts reads from the properties table instead.
  */
 export const seedProperties: Property[] = [
