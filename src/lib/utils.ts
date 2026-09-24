@@ -2,6 +2,19 @@ export function cn(...parts: Array<string | false | null | undefined>): string {
   return parts.filter(Boolean).join(" ");
 }
 
+/**
+ * URL-safe slug from arbitrary text: lowercase, non-alphanumerics collapsed to
+ * single hyphens, trimmed. Returns "" when the input has no usable characters
+ * (callers supply their own fallback). Shared by the property save path and the
+ * admin editor so an AI-applied title and a manually saved one slugify identically.
+ */
+export function slugify(input: string): string {
+  return input
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
 const ngnFormatter = new Intl.NumberFormat("en-NG", {
   style: "currency",
   currency: "NGN",

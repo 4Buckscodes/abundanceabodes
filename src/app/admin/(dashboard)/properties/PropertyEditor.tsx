@@ -7,6 +7,7 @@ import { ImageUploader } from "@/components/admin/ImageUploader";
 import { AiListingAssistant } from "@/components/admin/AiListingAssistant";
 import { PropertyDocumentationEditor } from "@/components/admin/PropertyDocumentationEditor";
 import type { AiExtractionResult } from "@/lib/ai-assistant";
+import { slugify } from "@/lib/utils";
 import { savePropertyAction, type SaveState } from "./actions";
 
 function Section({
@@ -110,6 +111,9 @@ export function PropertyEditor({ property }: { property?: Property }) {
     setPropertyType(extracted.type);
     setExtractedData({
       title: extracted.title,
+      // Derive a URL slug from the extracted title for new listings; keep an
+      // existing property's slug untouched so its live URL never changes.
+      slug: property?.slug || slugify(extracted.title),
       category: extracted.category,
       type: extracted.type,
       purpose: extracted.purpose,
@@ -155,9 +159,10 @@ export function PropertyEditor({ property }: { property?: Property }) {
           required
         />
         <TextField
+          key={`slug-${aiApplyVersion}`}
           name="slug"
           label="URL slug"
-          value={property?.slug}
+          value={extractedData?.slug ?? property?.slug}
           required
           hint="Lowercase letters, numbers, hyphens. e.g. the-crest-4-bedroom-duplex-lekki"
         />

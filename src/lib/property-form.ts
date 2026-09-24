@@ -1,6 +1,7 @@
 import type { Property, PropertyCategory, PropertyDocument, PropertyDocumentType, PropertyDocumentStatus, PropertyType } from "@/lib/types";
 import { DOCUMENT_TYPES_META } from "@/lib/documentation";
 import { extractYouTubeId } from "@/lib/youtube";
+import { slugify } from "@/lib/utils";
 
 /**
  * Parses the admin property editor FormData into a Property object.
@@ -22,11 +23,12 @@ export function parsePropertyForm(formData: FormData): Property {
   const id = String(formData.get("id") ?? "").trim();
   const title = String(formData.get("title") ?? "").trim();
   const slugInput = String(formData.get("slug") ?? "").trim();
+  // Prefer the slug field; if it is empty, derive one from the title so a
+  // listing always gets a readable URL instead of a random fallback.
   const slug =
-    slugInput
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, "-")
-      .replace(/^-+|-+$/g, "") || `property-${Date.now().toString(36)}`;
+    slugify(slugInput) ||
+    slugify(title) ||
+    `property-${Date.now().toString(36)}`;
   const typeRaw = String(formData.get("type") ?? "duplex") as PropertyType;
   const category = (
     formData.get("category") === "land" ? "land" : "home"
