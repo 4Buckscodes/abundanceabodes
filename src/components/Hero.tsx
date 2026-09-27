@@ -26,6 +26,10 @@ export function Hero() {
   const ref = useRef<HTMLElement>(null);
   const [playing, setPlaying] = useState(false);
 
+  // Temporarily hidden per client request — flip back to `true` to restore the
+  // oversized ABUNDANCE / ABODES wordmark layers (nothing else needs changing).
+  const SHOW_WORDMARK = false;
+
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
@@ -71,9 +75,11 @@ export function Hero() {
       </div>
 
       {/* LAYER 2 — ABUNDANCE, behind the villa. Real HTML text. */}
-      <div className="hero-layer hero-layer--abundance" aria-hidden="true">
-        <span className="hero-word hero-abundance font-display">ABUNDANCE</span>
-      </div>
+      {SHOW_WORDMARK && (
+        <div className="hero-layer hero-layer--abundance" aria-hidden="true">
+          <span className="hero-word hero-abundance font-display">ABUNDANCE</span>
+        </div>
+      )}
 
       {/* LAYER 3 — villa cutout (transparent), grounded in the garden. */}
       <div className="hero-layer hero-layer--villa" aria-hidden="true">
@@ -89,9 +95,11 @@ export function Hero() {
       </div>
 
       {/* LAYER 4 — ABODES, in front of the villa. Real HTML text. */}
-      <div className="hero-layer hero-layer--abodes" aria-hidden="true">
-        <span className="hero-word hero-abodes font-display">ABODES</span>
-      </div>
+      {SHOW_WORDMARK && (
+        <div className="hero-layer hero-layer--abodes" aria-hidden="true">
+          <span className="hero-word hero-abodes font-display">ABODES</span>
+        </div>
+      )}
 
       {/* LAYER 5 — hero content, lower-left. */}
       <div className="hero-layer hero-layer--content">
