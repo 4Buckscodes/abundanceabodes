@@ -8,8 +8,8 @@ import { cn } from "@/lib/utils";
 const primaryLinks = [
   { label: "Who We Are", href: "/about" },
   { label: "Properties", href: "/properties" },
-  { label: "Developments", href: "/for-developers" },
-  { label: "Services", href: "/for-buyers" },
+  { label: "Developments", href: "/developments" },
+  { label: "Services", href: "/services" },
   { label: "Insights", href: "/insights" },
   { label: "Contact", href: "/contact" },
 ];
