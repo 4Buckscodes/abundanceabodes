@@ -175,6 +175,50 @@
     transform: none;
   }
 
+  /* Cinematic hero wordmark entrance (paired with HeroWordmark client
+     component). Words start hidden/blurred/offset and converge into place;
+     ABODES trails ABUNDANCE. Reset is instant (the transition only exists on
+     .is-in), so each re-entry replays cleanly. Transform/opacity/filter only —
+     no layout shift. */
+  .hero-word {
+    opacity: 0;
+    filter: blur(8px);
+    will-change: transform, opacity, filter;
+  }
+
+  .hero-word--top {
+    transform: translateY(-35px);
+  }
+
+  .hero-word--bottom {
+    transform: translateY(35px);
+  }
+
+  .hero-word.is-in {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+    transition:
+      opacity 1000ms var(--ease-out-soft),
+      transform 1000ms var(--ease-out-soft),
+      filter 1000ms var(--ease-out-soft);
+  }
+
+  .hero-word--bottom.is-in {
+    transition-delay: 180ms;
+  }
+
+  /* Subtler travel on small screens so the oversized type stays composed. */
+  @media (max-width: 640px) {
+    .hero-word--top {
+      transform: translateY(-22px);
+    }
+
+    .hero-word--bottom {
+      transform: translateY(22px);
+    }
+  }
+
   /* Image zoom wrapper */
   .img-zoom {
     @apply overflow-hidden;
@@ -208,6 +252,16 @@
 
   .reveal {
     opacity: 1;
+    transform: none;
+  }
+
+  /* No cinematic entrance: show both words in their final position, no motion
+     or blur, regardless of observer/JS state. */
+  .hero-word,
+  .hero-word--top,
+  .hero-word--bottom {
+    opacity: 1;
+    filter: none;
     transform: none;
   }
 }

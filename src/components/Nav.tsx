@@ -8,6 +8,8 @@ import { cn } from "@/lib/utils";
 const primaryLinks = [
   { label: "Who We Are", href: "/about" },
   { label: "Properties", href: "/properties" },
+  { label: "Developments", href: "/for-developers" },
+  { label: "Services", href: "/for-buyers" },
   { label: "Insights", href: "/insights" },
   { label: "Contact", href: "/contact" },
 ];
@@ -74,13 +76,12 @@ export function Nav() {
         <div className="flex h-16 items-center justify-between gap-3 sm:gap-4 lg:h-20">
           <Link
             href="/"
-            className={cn(
-              "font-display text-lg font-bold tracking-tight transition-colors sm:text-xl",
-              solid ? "text-brand-ink hover:text-brand-forest-light" : "text-brand-cream hover:text-brand-white"
-            )}
+            className="font-display text-lg font-bold leading-[0.95] tracking-tight text-brand-ink transition-colors hover:text-brand-forest-light sm:text-xl"
             aria-label="Abundance Abodes — home"
           >
-            Abundance Abodes
+            Abundance
+            <br />
+            Abodes
           </Link>
 
           {/* Desktop nav */}
@@ -89,38 +90,11 @@ export function Nav() {
               <Link
                 key={link.href}
                 href={link.href}
-                className={cn(
-                  "text-sm font-medium transition-colors",
-                  solid
-                    ? "text-brand-ink hover:text-brand-gold-dark"
-                    : "text-brand-cream/90 hover:text-brand-white"
-                )}
+                className="text-sm font-medium text-brand-ink transition-colors hover:text-brand-gold-dark"
               >
                 {link.label}
               </Link>
             ))}
-            <button
-              type="button"
-              className={cn(
-                "flex items-center gap-1.5 text-sm font-medium transition-colors",
-                solid ? "text-brand-ink hover:text-brand-gold-dark" : "text-brand-cream/90 hover:text-brand-white"
-              )}
-              onClick={() => setOpen((v) => !v)}
-              aria-expanded={open}
-              aria-controls="site-nav-menu"
-            >
-              More
-              <svg
-                className={cn("h-4 w-4 transition-transform", open && "rotate-180")}
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={2}
-                aria-hidden="true"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-              </svg>
-            </button>
             <Link
               href="/consultation"
               className={solid ? "btn-primary !px-5 !py-2.5" : "btn-on-photo !px-5 !py-2.5"}
@@ -134,11 +108,11 @@ export function Nav() {
             <Link
               href="/consultation"
               className={cn(
-                "text-xs sm:text-sm",
-                solid ? "btn-primary !px-3 !py-2.5 sm:!px-4" : "btn-on-photo !px-3 !py-2.5 sm:!px-4"
+                "text-xs",
+                solid ? "btn-primary !px-3.5 !py-2.5" : "btn-on-photo !px-3.5 !py-2.5"
               )}
             >
-              Consultation
+              Book a Consultation
             </Link>
             <button
               type="button"
@@ -146,7 +120,7 @@ export function Nav() {
                 "flex h-11 w-11 items-center justify-center rounded-xl border transition-colors",
                 solid
                   ? "border-brand-ink/15 bg-brand-white text-brand-ink"
-                  : "border-brand-cream/40 bg-transparent text-brand-cream"
+                  : "border-transparent bg-transparent text-brand-ink"
               )}
               onClick={() => setOpen((v) => !v)}
               aria-expanded={open}
