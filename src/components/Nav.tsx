@@ -108,11 +108,14 @@ export function Nav() {
             <Link
               href="/consultation"
               className={cn(
-                "text-xs",
-                solid ? "btn-primary !px-3.5 !py-2.5" : "btn-on-photo !px-3.5 !py-2.5"
+                "whitespace-nowrap text-xs",
+                solid
+                  ? "btn-primary !px-3 !py-2.5 min-[360px]:!px-3.5"
+                  : "btn-on-photo !px-3 !py-2.5 min-[360px]:!px-3.5"
               )}
             >
-              Book a Consultation
+              <span className="hidden min-[360px]:inline">Book a Consultation</span>
+              <span className="min-[360px]:hidden">Book</span>
             </Link>
             <button
               type="button"
