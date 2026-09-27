@@ -1,6 +1,11 @@
-import type { Property } from "@/lib/types";
+import type { Development, Property } from "@/lib/types";
 import { seedProperties } from "@/lib/data/properties";
-import { dbListProperties, isSupabaseConfigured } from "@/lib/supabase";
+import { seedDevelopments } from "@/lib/data/developments";
+import {
+  dbListProperties,
+  dbListDevelopments,
+  isSupabaseConfigured,
+} from "@/lib/supabase";
 
 /**
  * Repository for properties.
@@ -63,4 +68,50 @@ export async function getRelatedProperties(
 export async function getPropertySlugs(): Promise<string[]> {
   const all = await getAllProperties();
   return all.map((p) => p.slug);
+}
+
+/* ------------------------------------------------------------------ */
+/* Developments                                                        */
+/* ------------------------------------------------------------------ */
+
+const STATUS_ORDER: Record<Development["status"], number> = {
+  ongoing: 0,
+  upcoming: 1,
+  completed: 2,
+};
+
+/**
+ * Reads developments from Supabase when configured; falls back to the bundled
+ * seed catalogue otherwise, so /developments always renders.
+ */
+export async function getAllDevelopments(): Promise<Development[]> {
+  if (isSupabaseConfigured()) {
+    const rows = await dbListDevelopments();
+    if (rows && rows.length > 0) return rows;
+  }
+  return seedDevelopments;
+}
+
+export async function getDevelopmentBySlug(
+  slug: string
+): Promise<Development | null> {
+  const all = await getAllDevelopments();
+  return all.find((d) => d.slug === slug) ?? null;
+}
+
+/** Developments grouped by lifecycle status, ordered ongoing → upcoming → completed. */
+export async function getDevelopmentsByStatus(): Promise<
+  { status: Development["status"]; items: Development[] }[]
+> {
+  const all = await getAllDevelopments();
+  const statuses: Development["status"][] = ["ongoing", "upcoming", "completed"];
+  return statuses
+    .map((status) => ({
+      status,
+      items: all
+        .filter((d) => d.status === status)
+        .sort((a, b) => Number(b.featured) - Number(a.featured)),
+    }))
+    .filter((group) => group.items.length > 0)
+    .sort((a, b) => STATUS_ORDER[a.status] - STATUS_ORDER[b.status]);
 }

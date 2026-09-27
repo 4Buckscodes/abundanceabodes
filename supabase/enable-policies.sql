@@ -40,6 +40,7 @@ alter table public.testimonials enable row level security;
 alter table public.faqs         enable row level security;
 alter table public.insights     enable row level security;
 alter table public.site_content enable row level security;
+alter table public.developments enable row level security;
 
 -- ---------- Properties: public read, admin write ----------
 drop policy if exists "properties are public" on public.properties;
@@ -48,6 +49,15 @@ create policy "properties are public"
 drop policy if exists "admins write properties" on public.properties;
 create policy "admins write properties"
   on public.properties for all
+  using (public.is_admin()) with check (public.is_admin());
+
+-- ---------- Developments: public read, admin write ----------
+drop policy if exists "developments are public" on public.developments;
+create policy "developments are public"
+  on public.developments for select using (true);
+drop policy if exists "admins write developments" on public.developments;
+create policy "admins write developments"
+  on public.developments for all
   using (public.is_admin()) with check (public.is_admin());
 
 -- ---------- Enquiries: anyone may submit; only admins read/update ----------

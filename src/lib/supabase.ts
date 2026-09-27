@@ -24,7 +24,7 @@
  * server (server components, server actions, API routes) and use the secret
  * key via adminRest() instead.
  */
-import type { Enquiry, Property } from "@/lib/types";
+import type { Development, Enquiry, Property } from "@/lib/types";
 
 export const SUPABASE_URL_ENV = "NEXT_PUBLIC_SUPABASE_URL";
 // Public (browser-safe) key. New name preferred; legacy anon key still read.
@@ -382,6 +382,109 @@ export async function dbUpsertProperty(property: Property): Promise<WriteOutcome
 export async function dbDeleteProperty(id: string): Promise<WriteOutcome> {
   // Privileged (see dbUpsertProperty): admin server actions only.
   return adminWrite(`properties?id=eq.${encodeURIComponent(id)}`, {
+    method: "DELETE",
+  });
+}
+
+/* ------------------------------------------------------------------ */
+/* Developments                                                        */
+/* ------------------------------------------------------------------ */
+
+const DEVELOPMENT_COLUMNS =
+  "id,slug,title,status,location,short_description,description,developer," +
+  "total_units,price_from,completion_date,progress,main_image,gallery," +
+  "highlights,featured,created_at,updated_at";
+
+type DevelopmentRow = Record<string, unknown>;
+
+function rowToDevelopment(row: DevelopmentRow): Development {
+  return {
+    id: String(row.id ?? ""),
+    slug: String(row.slug ?? ""),
+    title: String(row.title ?? ""),
+    status: (row.status as Development["status"]) ?? "upcoming",
+    location: String(row.location ?? ""),
+    shortDescription: String(row.short_description ?? ""),
+    description: Array.isArray(row.description)
+      ? (row.description as string[])
+      : String(row.description ?? "")
+          .split("\n\n")
+          .filter(Boolean),
+    developer: row.developer == null ? undefined : String(row.developer),
+    totalUnits: row.total_units == null ? undefined : String(row.total_units),
+    priceFrom: row.price_from == null ? undefined : String(row.price_from),
+    completionDate:
+      row.completion_date == null ? undefined : String(row.completion_date),
+    progress: row.progress == null ? undefined : Number(row.progress),
+    mainImage:
+      typeof row.main_image === "object" && row.main_image !== null
+        ? (row.main_image as Development["mainImage"])
+        : { url: "/images/properties/aerial-estate.svg", alt: "" },
+    gallery: Array.isArray(row.gallery)
+      ? (row.gallery as Development["gallery"])
+      : [],
+    highlights: Array.isArray(row.highlights)
+      ? (row.highlights as string[])
+      : [],
+    featured: Boolean(row.featured),
+    createdAt: String(row.created_at ?? new Date().toISOString()),
+    updatedAt: String(row.updated_at ?? new Date().toISOString()),
+  };
+}
+
+export async function dbListDevelopments(): Promise<Development[] | null> {
+  const rows = await rest<DevelopmentRow[]>(
+    `developments?select=${DEVELOPMENT_COLUMNS}&order=featured.desc,updated_at.desc`
+  );
+  if (!rows) return null;
+  return rows.map(rowToDevelopment);
+}
+
+export async function dbGetDevelopment(
+  slug: string
+): Promise<Development | null> {
+  const rows = await rest<DevelopmentRow[]>(
+    `developments?select=${DEVELOPMENT_COLUMNS}&slug=eq.${encodeURIComponent(slug)}&limit=1`
+  );
+  if (!rows || rows.length === 0) return null;
+  return rowToDevelopment(rows[0]);
+}
+
+export async function dbUpsertDevelopment(
+  development: Development
+): Promise<WriteOutcome> {
+  const row = {
+    id: development.id,
+    slug: development.slug,
+    title: development.title,
+    status: development.status,
+    location: development.location,
+    short_description: development.shortDescription,
+    description: development.description,
+    developer: development.developer ?? null,
+    total_units: development.totalUnits ?? null,
+    price_from: development.priceFrom ?? null,
+    completion_date: development.completionDate ?? null,
+    progress: development.progress ?? null,
+    main_image: development.mainImage,
+    gallery: development.gallery,
+    highlights: development.highlights,
+    featured: development.featured,
+    created_at: development.createdAt,
+    updated_at: new Date().toISOString(),
+  };
+  // Privileged: called only from the admin server actions, which verify the
+  // HMAC session cookie first (see dbUpsertProperty).
+  return adminWrite(`developments`, {
+    method: "POST",
+    body: JSON.stringify([row]),
+    headers: { Prefer: "resolution=merge-duplicates,return=representation" },
+  });
+}
+
+export async function dbDeleteDevelopment(id: string): Promise<WriteOutcome> {
+  // Privileged (see dbUpsertDevelopment): admin server actions only.
+  return adminWrite(`developments?id=eq.${encodeURIComponent(id)}`, {
     method: "DELETE",
   });
 }

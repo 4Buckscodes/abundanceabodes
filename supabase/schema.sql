@@ -52,6 +52,33 @@ create index if not exists idx_properties_category on public.properties (categor
 create index if not exists idx_properties_status   on public.properties (status);
 create index if not exists idx_properties_featured on public.properties (featured desc);
 
+-- ---------- Developments ----------
+create table if not exists public.developments (
+  id                text primary key,
+  slug              text not null unique,
+  title             text not null,
+  status            text not null default 'upcoming'
+                    check (status in ('completed','ongoing','upcoming')),
+  location          text not null,
+  short_description text not null default '',
+  description       jsonb not null default '[]'::jsonb, -- array of paragraphs
+  developer         text,
+  total_units       text,
+  price_from        text,
+  completion_date   text,
+  progress          int2,
+  main_image        jsonb not null,                     -- {url, alt}
+  gallery           jsonb not null default '[]'::jsonb  -- [{url, alt}]
+                    check (jsonb_typeof(gallery) = 'array'),
+  highlights        jsonb not null default '[]'::jsonb check (jsonb_typeof(highlights) = 'array'),
+  featured          boolean not null default false,
+  created_at        timestamptz not null default now(),
+  updated_at        timestamptz not null default now()
+);
+
+create index if not exists idx_developments_status   on public.developments (status);
+create index if not exists idx_developments_featured on public.developments (featured desc);
+
 -- ---------- Enquiries ----------
 create table if not exists public.enquiries (
   id             uuid primary key default gen_random_uuid(),
@@ -134,6 +161,7 @@ alter table public.testimonials enable row level security;
 alter table public.faqs         enable row level security;
 alter table public.insights     enable row level security;
 alter table public.site_content enable row level security;
+alter table public.developments enable row level security;
 
 -- Table of admin user ids (fill after creating an auth user)
 create table if not exists public.admins (
@@ -160,6 +188,15 @@ create policy "properties are public"
 drop policy if exists "admins write properties" on public.properties;
 create policy "admins write properties"
   on public.properties for all
+  using (public.is_admin()) with check (public.is_admin());
+
+-- Developments: world-readable; admin-only writes
+drop policy if exists "developments are public" on public.developments;
+create policy "developments are public"
+  on public.developments for select using (true);
+drop policy if exists "admins write developments" on public.developments;
+create policy "admins write developments"
+  on public.developments for all
   using (public.is_admin()) with check (public.is_admin());
 
 -- Testimonials / FAQs / Insights: public read of published rows

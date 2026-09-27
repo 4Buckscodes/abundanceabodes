@@ -185,6 +185,36 @@ export type Property = {
   updatedAt: string;
 };
 
+/** Lifecycle stage of a development project. */
+export type DevelopmentStatus = "completed" | "ongoing" | "upcoming";
+
+export type Development = {
+  id: string;
+  slug: string;
+  title: string;
+  status: DevelopmentStatus;
+  location: string;
+  /** Short one-liner shown on cards. */
+  shortDescription: string;
+  description: string[];
+  developer?: string;
+  /** e.g. "24 units", "50 serviced plots". */
+  totalUnits?: string;
+  /** Display string, e.g. "From ₦85,000,000" or "Price on request". */
+  priceFrom?: string;
+  /** e.g. "Q4 2026", "Delivered 2024". */
+  completionDate?: string;
+  /** Construction progress 0–100 (most meaningful for ongoing projects). */
+  progress?: number;
+  mainImage: PropertyImage;
+  gallery: PropertyImage[];
+  /** Bullet highlights (features / selling points). */
+  highlights: string[];
+  featured: boolean;
+  createdAt: string;
+  updatedAt: string;
+};
+
 export type Testimonial = {
   id: string;
   quote: string;

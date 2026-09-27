@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
+import type { Development, DevelopmentStatus } from "@/lib/types";
+import { getDevelopmentsByStatus } from "@/lib/data";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { ConsultationBand } from "@/components/home/ConsultationBand";
 import { Reveal } from "@/components/ui/Reveal";
@@ -7,33 +10,32 @@ import { Reveal } from "@/components/ui/Reveal";
 export const metadata: Metadata = {
   title: "Developments",
   description:
-    "New-build homes, estate allocations, and development-ready land represented by Abundance Abodes — every project vetted before it reaches you.",
+    "Completed, ongoing, and upcoming developments represented by Abundance Abodes — every project vetted for title, delivery, and terms before it reaches you.",
   alternates: { canonical: "/developments" },
 };
 
-const categories = [
-  {
-    title: "Off-plan & new-build homes",
-    description:
-      "Duplexes, terraces, and apartments released ahead of or during construction. We track delivery milestones and only present phases with genuine, verifiable progress.",
-    href: "/properties?type=home",
-    cta: "Browse homes",
+const STATUS_META: Record<
+  DevelopmentStatus,
+  { label: string; blurb: string; pill: string }
+> = {
+  ongoing: {
+    label: "Ongoing",
+    blurb: "Under construction now, with verified milestone progress.",
+    pill: "bg-amber-100 text-amber-800",
   },
-  {
-    title: "Estate land allocations",
-    description:
-      "Serviced plots within planned estates — allocation letters, deeds, and consent paperwork coordinated so your title stands up to scrutiny.",
-    href: "/properties?type=land",
-    cta: "Browse land",
+  upcoming: {
+    label: "Upcoming",
+    blurb:
+      "Releasing soon — register early for launch pricing and preferred selection.",
+    pill: "bg-sky-100 text-sky-800",
   },
-  {
-    title: "Development-ready land",
-    description:
-      "Multi-acre parcels in growth corridors suited to residential, commercial, or mixed-use projects, assessed for title, access, and exit liquidity.",
-    href: "/properties?type=land",
-    cta: "Browse land",
+  completed: {
+    label: "Completed",
+    blurb:
+      "Delivered and handed over. Occasional resale units may become available.",
+    pill: "bg-emerald-100 text-emerald-800",
   },
-];
+};
 
 const vetting = [
   ["Title & documentation", "Excision, C of O, deeds, and survey verified before a development is ever marketed to our clients."],
@@ -42,43 +44,136 @@ const vetting = [
   ["Build quality", "Finishes and specifications we would put our own reputation behind before attaching our name."],
 ];
 
-export default function DevelopmentsPage() {
+function DevelopmentCard({ development }: { development: Development }) {
+  const meta = STATUS_META[development.status];
+  return (
+    <li className="card-surface flex h-full flex-col overflow-hidden">
+      <div className="relative aspect-[16/10] bg-brand-sand/50">
+        <Image
+          src={development.mainImage.url}
+          alt={development.mainImage.alt || development.title}
+          fill
+          sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+          className="object-cover"
+          unoptimized={development.mainImage.url.startsWith("http")}
+        />
+        <span
+          className={`absolute left-3 top-3 rounded-full px-2.5 py-0.5 text-xs font-semibold capitalize ${meta.pill}`}
+        >
+          {meta.label}
+        </span>
+      </div>
+      <div className="flex flex-1 flex-col p-6">
+        <h3 className="font-serif text-xl font-semibold">{development.title}</h3>
+        <p className="mt-1 text-sm text-brand-muted">{development.location}</p>
+        <p className="mt-3 flex-1 leading-relaxed text-brand-muted">
+          {development.shortDescription}
+        </p>
+
+        {development.status === "ongoing" &&
+        typeof development.progress === "number" ? (
+          <div className="mt-4" aria-label={`Construction progress ${development.progress}%`}>
+            <div className="flex items-center justify-between text-xs font-medium text-brand-muted">
+              <span>Construction progress</span>
+              <span>{development.progress}%</span>
+            </div>
+            <div className="mt-1.5 h-2 overflow-hidden rounded-full bg-brand-sand">
+              <div
+                className="h-full rounded-full bg-brand-gold"
+                style={{ width: `${development.progress}%` }}
+              />
+            </div>
+          </div>
+        ) : null}
+
+        <dl className="mt-4 grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
+          {development.priceFrom ? (
+            <div className="col-span-2">
+              <dt className="text-xs uppercase tracking-wide text-brand-muted">Price</dt>
+              <dd className="font-semibold text-brand-forest">{development.priceFrom}</dd>
+            </div>
+          ) : null}
+          {development.totalUnits ? (
+            <div>
+              <dt className="text-xs uppercase tracking-wide text-brand-muted">Units</dt>
+              <dd className="text-brand-forest">{development.totalUnits}</dd>
+            </div>
+          ) : null}
+          {development.completionDate ? (
+            <div>
+              <dt className="text-xs uppercase tracking-wide text-brand-muted">Timeline</dt>
+              <dd className="text-brand-forest">{development.completionDate}</dd>
+            </div>
+          ) : null}
+        </dl>
+
+        {development.highlights.length > 0 ? (
+          <ul className="mt-4 flex flex-wrap gap-1.5">
+            {development.highlights.slice(0, 4).map((h) => (
+              <li
+                key={h}
+                className="rounded-full border border-brand-sand bg-brand-cream/60 px-2.5 py-1 text-xs text-brand-muted"
+              >
+                {h}
+              </li>
+            ))}
+          </ul>
+        ) : null}
+
+        <Link
+          href={`/consultation?development=${development.slug}`}
+          className="btn-secondary mt-6 w-full justify-center"
+        >
+          Enquire about this development
+        </Link>
+      </div>
+    </li>
+  );
+}
+
+export default async function DevelopmentsPage() {
+  const groups = await getDevelopmentsByStatus();
+
   return (
     <>
       <PageHeader
         label="Developments"
         title="New Developments, Vetted Before They Reach You"
-        description="We represent a selective slate of projects — off-plan homes, estate allocations, and development-ready land. Each one passes the same documentation and delivery scrutiny we would demand as buyers ourselves."
+        description="We represent a selective slate of projects — completed, under construction, and releasing soon. Each one passes the same documentation and delivery scrutiny we would demand as buyers ourselves."
         crumbs={[{ label: "Developments" }]}
       />
 
-      <section className="section-padding" aria-labelledby="dev-categories-heading">
-        <div className="container-site">
-          <Reveal>
-            <h2 id="dev-categories-heading" className="text-3xl font-semibold tracking-tight sm:text-4xl">
-              What We Represent
-            </h2>
-          </Reveal>
-          <ul className="mt-10 grid gap-6 lg:grid-cols-3">
-            {categories.map((cat, i) => (
-              <Reveal key={cat.title} delay={i * 80}>
-                <li className="card-surface flex h-full flex-col p-7">
-                  <h3 className="font-serif text-xl font-semibold">{cat.title}</h3>
-                  <p className="mt-2.5 flex-1 leading-relaxed text-brand-muted">
-                    {cat.description}
-                  </p>
-                  <Link href={cat.href} className="link-underline group mt-5 text-sm">
-                    {cat.cta}
-                    <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                    </svg>
-                  </Link>
-                </li>
+      {groups.map((group, gi) => {
+        const meta = STATUS_META[group.status];
+        return (
+          <section
+            key={group.status}
+            className={gi % 2 === 1 ? "section-padding bg-brand-white" : "section-padding"}
+            aria-labelledby={`dev-${group.status}-heading`}
+          >
+            <div className="container-site">
+              <Reveal>
+                <h2
+                  id={`dev-${group.status}-heading`}
+                  className="text-3xl font-semibold tracking-tight sm:text-4xl"
+                >
+                  {meta.label} Developments
+                </h2>
+                <p className="mt-3 max-w-2xl leading-relaxed text-brand-muted">
+                  {meta.blurb}
+                </p>
               </Reveal>
-            ))}
-          </ul>
-        </div>
-      </section>
+              <ul className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                {group.items.map((development, i) => (
+                  <Reveal key={development.id} delay={i * 70}>
+                    <DevelopmentCard development={development} />
+                  </Reveal>
+                ))}
+              </ul>
+            </div>
+          </section>
+        );
+      })}
 
       <section className="section-padding bg-brand-white" aria-labelledby="dev-vetting-heading">
         <div className="container-site">

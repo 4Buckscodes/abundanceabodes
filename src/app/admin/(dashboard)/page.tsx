@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getAllProperties } from "@/lib/data";
+import { getAllProperties, getAllDevelopments } from "@/lib/data";
 import { dbListEnquiries, isAdminDatabaseConfigured } from "@/lib/supabase";
 import { seedProperties } from "@/lib/data/properties";
 import { insights } from "@/lib/data/content";
@@ -9,15 +9,16 @@ export const dynamic = "force-dynamic";
 
 export default async function AdminDashboard() {
   const properties = await getAllProperties();
+  const developments = await getAllDevelopments();
   const enquiries = isAdminDatabaseConfigured() ? await dbListEnquiries() : null;
   const newEnquiries = enquiries?.filter((e) => e.status === "new").length ?? 0;
 
   const stats = [
     { label: "Properties", value: String(properties.length), href: "/admin/properties" },
     {
-      label: "Featured",
-      value: String(properties.filter((p) => p.featured).length),
-      href: "/admin/properties",
+      label: "Developments",
+      value: String(developments.length),
+      href: "/admin/developments",
     },
     {
       label: "Available listings",
