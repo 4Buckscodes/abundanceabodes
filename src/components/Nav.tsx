@@ -76,7 +76,12 @@ export function Nav() {
         <div className="flex h-16 items-center justify-between gap-3 sm:gap-4 lg:h-20">
           <Link
             href="/"
-            className="font-display text-lg font-bold leading-[0.95] tracking-tight text-brand-ink transition-colors hover:text-brand-forest-light sm:text-xl"
+            className={cn(
+              "font-display text-lg font-bold leading-[0.95] tracking-tight transition-colors sm:text-xl",
+              solid
+                ? "text-brand-ink hover:text-brand-forest-light"
+                : "text-brand-cream hover:text-brand-white"
+            )}
             aria-label="Abundance Abodes — home"
           >
             Abundance
@@ -90,7 +95,12 @@ export function Nav() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-sm font-medium text-brand-ink transition-colors hover:text-brand-gold-dark"
+                className={cn(
+                  "text-sm font-medium transition-colors",
+                  solid
+                    ? "text-brand-ink hover:text-brand-gold-dark"
+                    : "text-brand-cream/90 hover:text-brand-white"
+                )}
               >
                 {link.label}
               </Link>
@@ -123,7 +133,7 @@ export function Nav() {
                 "flex h-11 w-11 items-center justify-center rounded-xl border transition-colors",
                 solid
                   ? "border-brand-ink/15 bg-brand-white text-brand-ink"
-                  : "border-transparent bg-transparent text-brand-ink"
+                  : "border-brand-cream/40 bg-transparent text-brand-cream"
               )}
               onClick={() => setOpen((v) => !v)}
               aria-expanded={open}

@@ -175,47 +175,214 @@
     transform: none;
   }
 
-  /* Cinematic hero wordmark entrance (paired with HeroWordmark client
-     component). Words start hidden/blurred/offset and converge into place;
-     ABODES trails ABUNDANCE. Reset is instant (the transition only exists on
-     .is-in), so each re-entry replays cleanly. Transform/opacity/filter only —
-     no layout shift. */
+  /* ============================================================
+     Homepage layered hero — six-layer depth composition.
+     BG (1) → ABUNDANCE (2) → VILLA (3) → ABODES (4) → CONTENT (10) → NAV.
+     Every position/size is a custom property on `.hero-stage`, so the
+     composition is tuned per breakpoint in one place (see media queries).
+     Defaults target large desktop. ============================================================ */
+  .hero-stage {
+    position: relative;
+    display: flex;
+    min-height: 100svh;
+    flex-direction: column;
+    justify-content: flex-end;
+    overflow: hidden;
+    isolation: isolate;
+    background-color: var(--color-brand-forest-dark);
+
+    --hero-abundance-size: clamp(7rem, 12vw, 12rem);
+    --hero-abundance-top: 11%;
+    --hero-abundance-opacity: 0.82;
+
+    --hero-villa-width: min(1240px, 80vw);
+    --hero-villa-center-y: 46%;
+
+    --hero-abodes-size: clamp(9rem, 16vw, 16.5rem);
+    --hero-abodes-top: 46%;
+    --hero-abodes-opacity: 0.96;
+  }
+
+  .hero-layer {
+    position: absolute;
+    inset: 0;
+  }
+  .hero-layer--bg { z-index: 1; }
+  .hero-layer--abundance { z-index: 2; }
+  .hero-layer--villa { z-index: 3; }
+  .hero-layer--abodes { z-index: 4; }
+  .hero-layer--content {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    align-items: flex-end;
+    padding-bottom: clamp(2.5rem, 6vh, 5rem);
+    pointer-events: none;
+  }
+  .hero-layer--content a { pointer-events: auto; }
+
+  .hero-scrim {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(to bottom, rgba(16,14,12,0.14) 0%, rgba(16,14,12,0) 28%, rgba(16,14,12,0) 50%, rgba(16,14,12,0.58) 100%),
+      radial-gradient(120% 92% at 20% 100%, rgba(16,14,12,0.46) 0%, rgba(16,14,12,0) 55%);
+  }
+
+  /* Oversized editorial words — centred, bleeding past both edges, clipped. */
+  .hero-layer--abundance,
+  .hero-layer--abodes {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+  }
   .hero-word {
+    position: absolute;
+    display: inline-block;
+    white-space: nowrap;
+    pointer-events: none;
+    font-weight: 500;
+    line-height: 0.8;
+    letter-spacing: -0.045em;
+    color: #f4efe3;
+  }
+  .hero-abundance {
+    top: var(--hero-abundance-top);
+    font-size: var(--hero-abundance-size);
+  }
+  .hero-abodes {
+    top: var(--hero-abodes-top);
+    font-size: var(--hero-abodes-size);
+  }
+
+  /* Villa cutout — centred, width-driven (aspect ratio preserved). */
+  .hero-layer--villa { display: flex; justify-content: center; }
+  .hero-villa-img {
+    position: absolute;
+    top: var(--hero-villa-center-y);
+    left: 50%;
+    width: var(--hero-villa-width);
+    height: auto;
+    transform: translate(-50%, -50%);
+    filter: drop-shadow(0 34px 40px rgba(16,14,12,0.34));
+  }
+
+  /* Content typography (lower-left, over photo) */
+  .hero-headline {
+    font-size: clamp(2.25rem, 3.6vw, 3.35rem);
+    font-weight: 600;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    color: var(--color-brand-cream);
+    text-wrap: balance;
+    text-shadow: 0 2px 24px rgba(16,14,12,0.42);
+  }
+  .hero-sub {
+    margin-top: 1.25rem;
+    max-width: 34rem;
+    font-size: 1rem;
+    line-height: 1.65;
+    color: rgba(244,239,227,0.92);
+    text-shadow: 0 1px 16px rgba(16,14,12,0.38);
+  }
+  .hero-cta-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding-bottom: 0.3rem;
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    color: var(--color-brand-cream);
+    border-bottom: 1px solid rgba(244,239,227,0.7);
+    transition: border-color 0.3s var(--ease-out-soft);
+  }
+  .hero-cta-primary:hover { border-color: var(--color-brand-cream); }
+  .hero-cta-secondary {
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    color: rgba(244,239,227,0.86);
+    transition: color 0.3s var(--ease-out-soft);
+  }
+  .hero-cta-secondary:hover { color: var(--color-brand-cream); }
+
+  /* ---- Cinematic entrance (transition-based; replays on .is-in) ----
+     Reset state lives on the base selectors; the transition only exists on the
+     .is-in variants, so leaving + re-entering the hero replays cleanly with no
+     layout shift (transform/opacity only). */
+  .hero-bg-img {
     opacity: 0;
-    filter: blur(8px);
-    will-change: transform, opacity, filter;
+    transform: scale(1.05);
+    transition: opacity 1200ms var(--ease-out-soft), transform 1800ms var(--ease-out-soft);
   }
-
-  .hero-word--top {
-    transform: translateY(-35px);
+  .hero-abundance {
+    opacity: 0;
+    transform: translateY(-30px) scale(0.965);
   }
-
-  .hero-word--bottom {
-    transform: translateY(35px);
+  .hero-villa-img {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1.045);
   }
-
-  .hero-word.is-in {
+  .hero-abodes {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  .hero-copy {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  .hero-stage.is-in .hero-bg-img { opacity: 1; transform: scale(1); }
+  .hero-stage.is-in .hero-abundance {
+    opacity: var(--hero-abundance-opacity);
+    transform: none;
+    transition: opacity 1000ms var(--ease-out-soft) 160ms, transform 1000ms var(--ease-out-soft) 160ms;
+  }
+  .hero-stage.is-in .hero-villa-img {
     opacity: 1;
-    filter: blur(0);
-    transform: translateY(0);
-    transition:
-      opacity 1000ms var(--ease-out-soft),
-      transform 1000ms var(--ease-out-soft),
-      filter 1000ms var(--ease-out-soft);
+    transform: translate(-50%, -50%) scale(1);
+    transition: opacity 1100ms var(--ease-out-soft) 360ms, transform 1300ms var(--ease-out-soft) 360ms;
+  }
+  .hero-stage.is-in .hero-abodes {
+    opacity: var(--hero-abodes-opacity);
+    transform: none;
+    transition: opacity 1000ms var(--ease-out-soft) 560ms, transform 1000ms var(--ease-out-soft) 560ms;
+  }
+  .hero-stage.is-in .hero-copy {
+    opacity: 1;
+    transform: none;
+    transition: opacity 900ms var(--ease-out-soft) 720ms, transform 900ms var(--ease-out-soft) 720ms;
   }
 
-  .hero-word--bottom.is-in {
-    transition-delay: 180ms;
-  }
-
-  /* Subtler travel on small screens so the oversized type stays composed. */
-  @media (max-width: 640px) {
-    .hero-word--top {
-      transform: translateY(-22px);
+  /* ---- Responsive composition (tuned independently per breakpoint) ---- */
+  @media (max-width: 767px) {
+    .hero-stage {
+      --hero-abundance-size: clamp(2.6rem, 13vw, 4.5rem);
+      --hero-abundance-top: 15%;
+      --hero-villa-width: min(640px, 138vw);
+      --hero-villa-center-y: 42%;
+      --hero-abodes-size: clamp(3.25rem, 20vw, 6.5rem);
+      --hero-abodes-top: 48%;
     }
-
-    .hero-word--bottom {
-      transform: translateY(22px);
+  }
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .hero-stage {
+      --hero-abundance-size: clamp(4rem, 11vw, 7.5rem);
+      --hero-abundance-top: 15%;
+      --hero-villa-width: min(800px, 92vw);
+      --hero-villa-center-y: 46%;
+      --hero-abodes-size: clamp(5rem, 16vw, 11rem);
+      --hero-abodes-top: 52%;
+    }
+  }
+  @media (min-width: 1024px) and (max-width: 1439px) {
+    .hero-stage {
+      --hero-abundance-size: clamp(6rem, 12vw, 10.5rem);
+      --hero-abundance-top: 12%;
+      --hero-villa-width: min(1020px, 84vw);
+      --hero-villa-center-y: 45%;
+      --hero-abodes-size: clamp(8rem, 16vw, 14rem);
+      --hero-abodes-top: 46%;
     }
   }
 
@@ -255,13 +422,19 @@
     transform: none;
   }
 
-  /* No cinematic entrance: show both words in their final position, no motion
-     or blur, regardless of observer/JS state. */
-  .hero-word,
-  .hero-word--top,
-  .hero-word--bottom {
-    opacity: 1;
-    filter: none;
-    transform: none;
+  /* No cinematic entrance: every hero layer sits in its final frame, no motion,
+     regardless of observer/JS state. Villa keeps its centring transform. */
+  .hero-bg-img,
+  .hero-abundance,
+  .hero-abodes,
+  .hero-copy {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .hero-abundance { opacity: var(--hero-abundance-opacity) !important; }
+  .hero-abodes { opacity: var(--hero-abodes-opacity) !important; }
+  .hero-villa-img {
+    opacity: 1 !important;
+    transform: translate(-50%, -50%) !important;
   }
 }
