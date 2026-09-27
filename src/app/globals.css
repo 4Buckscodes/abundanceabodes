@@ -1,27 +1,31 @@
 @import "tailwindcss";
 
 @theme {
-  /* Abundance Abodes brand palette: warm earth tones + confident gold/deep green */
-  --color-brand-cream: #f7f3eb;
-  --color-brand-sand: #e8dfd0;
-  --color-brand-stone: #c4b5a0;
-  --color-brand-earth: #8b7355;
-  --color-brand-forest: #1a3c2e;
-  --color-brand-forest-light: #2a5542;
-  --color-brand-forest-dark: #0f2419;
-  --color-brand-gold: #b8954a;
-  --color-brand-gold-light: #d4b56a;
-  --color-brand-gold-dark: #8f7338;
-  --color-brand-ink: #1c1917;
-  --color-brand-muted: #57534e;
+  /* Neutral "big-type editorial" palette: warm ivory, ink/charcoal, dusk-blue accent.
+     Token NAMES are kept (brand-forest/brand-gold) so the ~50 files that reference
+     them restyle in place; only the VALUES change. brand-forest is now the ink ramp
+     (primary dark), brand-gold is now the dusk-blue accent ramp. */
+  --color-brand-cream: #f4efe3;
+  --color-brand-sand: #e7e0d2;
+  --color-brand-stone: #b9b0a1;
+  --color-brand-earth: #8a8073;
+  --color-brand-forest: #1c1a17;
+  --color-brand-forest-light: #2e2a25;
+  --color-brand-forest-dark: #100e0c;
+  --color-brand-gold: #7d90a6;
+  --color-brand-gold-light: #a3b4c7;
+  --color-brand-gold-dark: #5c6e83;
+  --color-brand-ink: #1c1a17;
+  --color-brand-muted: #5a554e;
   --color-brand-white: #ffffff;
 
-  --font-serif: var(--font-playfair), "Georgia", "Times New Roman", serif;
-  --font-sans: var(--font-inter), "system-ui", "-apple-system", "sans-serif";
+  --font-sans: var(--font-archivo), "system-ui", "-apple-system", "sans-serif";
+  --font-serif: var(--font-archivo), "system-ui", "-apple-system", "sans-serif";
+  --font-display: var(--font-archivo), "system-ui", "sans-serif";
 
-  --shadow-card: 0 1px 2px rgb(28 25 23 / 0.05), 0 4px 16px -4px rgb(28 25 23 / 0.08);
-  --shadow-lift: 0 2px 6px rgb(28 25 23 / 0.06), 0 18px 40px -12px rgb(15 36 25 / 0.22);
-  --shadow-deep: 0 24px 60px -12px rgb(15 36 25 / 0.35);
+  --shadow-card: 0 1px 2px rgb(28 25 23 / 0.04), 0 6px 20px -8px rgb(28 25 23 / 0.10);
+  --shadow-lift: 0 2px 6px rgb(28 25 23 / 0.05), 0 20px 44px -18px rgb(28 25 23 / 0.20);
+  --shadow-deep: 0 26px 60px -20px rgb(28 25 23 / 0.28);
 
   --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
 
@@ -53,12 +57,12 @@
   h2,
   h3,
   h4 {
-    @apply font-serif text-brand-forest;
+    @apply font-sans font-semibold tracking-tight text-brand-ink;
     text-wrap: balance;
   }
 
   ::selection {
-    @apply bg-brand-gold/40 text-brand-forest-dark;
+    @apply bg-brand-gold/35 text-brand-ink;
   }
 
   :focus-visible {
@@ -77,6 +81,14 @@
     @apply py-16 sm:py-20 lg:py-28;
   }
 
+  /* Oversized display type: Archivo rendered at its widest (Expanded) width via
+     the loaded `wdth` axis, for the hero wordmark + major titles. */
+  .font-display {
+    font-family: var(--font-display);
+    font-stretch: 125%;
+    letter-spacing: -0.02em;
+  }
+
   .btn,
   .btn-primary,
   .btn-secondary,
@@ -86,19 +98,24 @@
   }
 
   .btn-primary {
-    @apply bg-brand-forest text-brand-white shadow-sm hover:bg-brand-forest-light hover:shadow-md active:scale-[0.98];
+    @apply bg-brand-ink text-brand-cream hover:bg-brand-forest-light active:scale-[0.98];
   }
 
   .btn-secondary {
-    @apply border border-brand-forest/25 bg-brand-white text-brand-forest hover:border-brand-forest hover:bg-brand-sand/50 active:scale-[0.98];
+    @apply border border-brand-ink/25 bg-transparent text-brand-ink hover:border-brand-ink hover:bg-brand-ink/[0.04] active:scale-[0.98];
   }
 
   .btn-gold {
-    @apply bg-brand-gold text-brand-forest-dark shadow-sm hover:bg-brand-gold-light hover:shadow-md active:scale-[0.98];
+    @apply bg-brand-gold text-brand-white hover:bg-brand-gold-dark active:scale-[0.98];
   }
 
   .btn-ghost-dark {
-    @apply border border-brand-cream/30 bg-transparent text-brand-cream hover:border-brand-gold-light hover:text-brand-gold-light;
+    @apply border border-brand-cream/40 bg-transparent text-brand-cream hover:border-brand-cream hover:bg-brand-cream/10;
+  }
+
+  /* Cream-filled pill for use over the hero photo / dark surfaces. */
+  .btn-on-photo {
+    @apply inline-flex items-center justify-center gap-2 rounded-full bg-brand-cream px-6 py-3 text-sm font-semibold tracking-wide text-brand-ink transition-all duration-300 min-h-11 select-none hover:bg-brand-white active:scale-[0.98];
   }
 
   .section-label {

@@ -41,13 +41,7 @@ export function Footer() {
         <div className="grid gap-12 lg:grid-cols-[1.3fr_2fr]">
           <div>
             <Link href="/" className="inline-flex items-center gap-3">
-              <span
-                className="flex h-11 w-11 items-center justify-center rounded-xl bg-brand-gold font-serif text-lg font-bold text-brand-forest-dark"
-                aria-hidden="true"
-              >
-                A
-              </span>
-              <span className="font-serif text-2xl font-semibold text-brand-cream">
+              <span className="font-display text-2xl font-bold tracking-tight text-brand-cream">
                 Abundance Abodes
               </span>
             </Link>

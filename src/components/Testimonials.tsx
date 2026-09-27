@@ -14,7 +14,7 @@ export function Testimonials() {
             <p className="section-label-on-dark mb-3">Client Voices</p>
             <h2
               id="testimonials-heading"
-              className="text-3xl font-semibold tracking-tight text-brand-cream sm:text-4xl"
+              className="font-display text-3xl font-semibold tracking-tight text-brand-cream sm:text-4xl"
             >
               Confidence Through Clarity
             </h2>

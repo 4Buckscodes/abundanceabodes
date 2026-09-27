@@ -8,7 +8,7 @@ export function ConsultationBand() {
       aria-labelledby="cta-band-heading"
     >
       <div
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,_rgba(184,149,74,0.18),_transparent_55%)]"
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,_rgba(125,144,166,0.22),_transparent_55%)]"
         aria-hidden="true"
       />
       <div className="container-site relative py-16 sm:py-20 lg:py-24">
@@ -19,7 +19,7 @@ export function ConsultationBand() {
             </p>
             <h2
               id="cta-band-heading"
-              className="text-3xl font-semibold tracking-tight text-brand-cream sm:text-4xl lg:text-[2.75rem] lg:leading-tight"
+              className="font-display text-3xl font-semibold tracking-tight text-brand-cream sm:text-4xl lg:text-[2.75rem] lg:leading-tight"
             >
               Tell Us What You&apos;re Looking For.
             </h2>

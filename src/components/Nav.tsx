@@ -6,10 +6,10 @@ import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 
 const primaryLinks = [
+  { label: "Who We Are", href: "/about" },
   { label: "Properties", href: "/properties" },
-  { label: "Homes", href: "/properties?type=home" },
-  { label: "Land", href: "/properties?type=land" },
-  { label: "About", href: "/about" },
+  { label: "Insights", href: "/insights" },
+  { label: "Contact", href: "/contact" },
 ];
 
 const menuLinks = [
@@ -18,19 +18,29 @@ const menuLinks = [
   { label: "For Sellers", href: "/for-sellers" },
   { label: "For Developers", href: "/for-developers" },
   { label: "Due Diligence Guide", href: "/due-diligence" },
-  { label: "Property Insights", href: "/insights" },
+  { label: "Homes", href: "/properties?type=home" },
+  { label: "Land", href: "/properties?type=land" },
   { label: "FAQ", href: "/faq" },
-  { label: "Contact", href: "/contact" },
 ];
 
 export function Nav() {
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
+  const isHome = pathname === "/";
 
   // Close the drawer whenever the route changes.
   useEffect(() => {
     setOpen(false);
   }, [pathname]);
+
+  // Track scroll so the transparent home nav turns solid once the hero scrolls.
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   // Lock body scroll + Escape to close while the mobile drawer is open.
   useEffect(() => {
@@ -46,29 +56,31 @@ export function Nav() {
     };
   }, [open]);
 
+  // Transparent, ivory-on-photo only at the top of the homepage; solid cream
+  // everywhere else (scrolled, other routes, or with the drawer open).
+  const solid = !isHome || scrolled || open;
+
   return (
-    <header className="sticky top-0 z-90 border-b border-brand-sand/70 bg-brand-cream/95 backdrop-blur-md">
+    <header
+      className={cn(
+        "z-90 transition-colors duration-300",
+        isHome ? "fixed inset-x-0 top-0" : "sticky top-0",
+        solid
+          ? "border-b border-brand-sand bg-brand-cream/95 backdrop-blur-md"
+          : "border-b border-transparent bg-transparent"
+      )}
+    >
       <div className="container-site">
         <div className="flex h-16 items-center justify-between gap-3 sm:gap-4 lg:h-20">
           <Link
             href="/"
-            className="group flex min-w-0 flex-col"
+            className={cn(
+              "font-display text-lg font-bold tracking-tight transition-colors sm:text-xl",
+              solid ? "text-brand-ink hover:text-brand-forest-light" : "text-brand-cream hover:text-brand-white"
+            )}
             aria-label="Abundance Abodes — home"
           >
-            <span className="flex min-w-0 items-center gap-2">
-              <span
-                className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-brand-forest font-serif text-sm font-bold text-brand-gold-light transition-colors group-hover:bg-brand-forest-light"
-                aria-hidden="true"
-              >
-                A
-              </span>
-              <span className="min-w-0 truncate font-serif text-base font-semibold tracking-tight text-brand-forest transition-colors group-hover:text-brand-forest-light sm:text-lg lg:text-xl">
-                Abundance Abodes
-              </span>
-            </span>
-            <span className="ml-10 truncate text-[10px] uppercase tracking-[0.18em] text-brand-gold-dark sm:text-[11px]">
-              Trusted Property Brokerage
-            </span>
+            Abundance Abodes
           </Link>
 
           {/* Desktop nav */}
@@ -77,17 +89,22 @@ export function Nav() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-sm font-medium text-brand-ink transition-colors hover:text-brand-gold-dark"
+                className={cn(
+                  "text-sm font-medium transition-colors",
+                  solid
+                    ? "text-brand-ink hover:text-brand-gold-dark"
+                    : "text-brand-cream/90 hover:text-brand-white"
+                )}
               >
                 {link.label}
               </Link>
             ))}
-            <Link href="/consultation" className="btn-gold !px-5 !py-2.5">
-              Book a Consultation
-            </Link>
             <button
               type="button"
-              className="flex items-center gap-1.5 rounded-full border border-brand-forest/15 bg-brand-white px-4 py-2.5 text-sm font-medium text-brand-forest transition-colors hover:bg-brand-sand/40"
+              className={cn(
+                "flex items-center gap-1.5 text-sm font-medium transition-colors",
+                solid ? "text-brand-ink hover:text-brand-gold-dark" : "text-brand-cream/90 hover:text-brand-white"
+              )}
               onClick={() => setOpen((v) => !v)}
               aria-expanded={open}
               aria-controls="site-nav-menu"
@@ -104,19 +121,33 @@ export function Nav() {
                 <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
               </svg>
             </button>
+            <Link
+              href="/consultation"
+              className={solid ? "btn-primary !px-5 !py-2.5" : "btn-on-photo !px-5 !py-2.5"}
+            >
+              Book a Consultation
+            </Link>
           </nav>
 
           {/* Mobile actions */}
           <div className="flex shrink-0 items-center gap-2 lg:hidden">
             <Link
               href="/consultation"
-              className="btn-gold !px-3 !py-2.5 text-xs sm:!px-4 sm:text-sm"
+              className={cn(
+                "text-xs sm:text-sm",
+                solid ? "btn-primary !px-3 !py-2.5 sm:!px-4" : "btn-on-photo !px-3 !py-2.5 sm:!px-4"
+              )}
             >
               Consultation
             </Link>
             <button
               type="button"
-              className="flex h-11 w-11 items-center justify-center rounded-xl border border-brand-forest/15 bg-brand-white text-brand-forest"
+              className={cn(
+                "flex h-11 w-11 items-center justify-center rounded-xl border transition-colors",
+                solid
+                  ? "border-brand-ink/15 bg-brand-white text-brand-ink"
+                  : "border-brand-cream/40 bg-transparent text-brand-cream"
+              )}
               onClick={() => setOpen((v) => !v)}
               aria-expanded={open}
               aria-controls="site-nav-menu"
@@ -141,16 +172,29 @@ export function Nav() {
           aria-label="Secondary"
           className={cn(
             "overflow-hidden transition-all duration-300",
-            open ? "max-h-[36rem] pb-6 opacity-100" : "max-h-0 opacity-0",
+            open ? "max-h-[40rem] pb-6 opacity-100" : "max-h-0 opacity-0",
             open && "border-t border-brand-sand pt-4"
           )}
         >
+          {/* Primary links repeat here on mobile only (the top bar hides them
+              below lg); the secondary links show at every width. */}
           <ul className="grid gap-1 sm:grid-cols-3">
+            {primaryLinks.map((item) => (
+              <li key={item.href} className="lg:hidden">
+                <Link
+                  href={item.href}
+                  className="block rounded-lg px-3 py-3 text-sm font-medium text-brand-ink transition-colors hover:bg-brand-sand/50 hover:text-brand-gold-dark"
+                  onClick={() => setOpen(false)}
+                >
+                  {item.label}
+                </Link>
+              </li>
+            ))}
             {menuLinks.map((item) => (
               <li key={item.href}>
                 <Link
                   href={item.href}
-                  className="block rounded-lg px-3 py-3 text-sm text-brand-ink transition-colors hover:bg-brand-sand/50 hover:text-brand-forest"
+                  className="block rounded-lg px-3 py-3 text-sm text-brand-ink transition-colors hover:bg-brand-sand/50 hover:text-brand-gold-dark"
                   onClick={() => setOpen(false)}
                 >
                   {item.label}

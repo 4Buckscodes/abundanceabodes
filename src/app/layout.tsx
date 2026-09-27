@@ -1,20 +1,18 @@
 import type { Metadata } from "next";
-import { Inter, Playfair_Display } from "next/font/google";
+import { Archivo } from "next/font/google";
 import "./globals.css";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { JsonLd } from "@/components/JsonLd";
 import { absoluteUrl, site } from "@/lib/site";
 
-const inter = Inter({
+// Archivo drives the whole type system. Loaded as a variable font with the
+// width (`wdth`) axis so the display utility can render the "Expanded" look via
+// `font-stretch` — Archivo Expanded is not a separate next/font family.
+const archivo = Archivo({
   subsets: ["latin"],
-  variable: "--font-inter",
-  display: "swap",
-});
-
-const playfair = Playfair_Display({
-  subsets: ["latin"],
-  variable: "--font-playfair",
+  axes: ["wdth"],
+  variable: "--font-archivo",
   display: "swap",
 });
 
@@ -79,7 +77,7 @@ export default function RootLayout({
   };
 
   return (
-    <html lang="en" className={`${inter.variable} ${playfair.variable}`}>
+    <html lang="en" className={archivo.variable}>
       <body className="flex min-h-screen flex-col font-sans">
         <JsonLd data={organizationLd} />
         <JsonLd data={websiteLd} />

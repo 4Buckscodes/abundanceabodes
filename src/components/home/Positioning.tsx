@@ -25,7 +25,7 @@ export function Positioning() {
             </p>
             <h2
               id="positioning-heading"
-              className="text-3xl font-semibold tracking-tight sm:text-4xl"
+              className="font-display text-3xl font-semibold tracking-tight sm:text-4xl"
             >
               Helping You Find Your Place — and Build What Lasts.
             </h2>
